@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Zaklínač – zápisky z knih</title>
   <meta name="color-scheme" content="dark" />
-  <!-- doporučení, ať to neleze do vyhledávačů (není to heslo!) -->
   <meta name="robots" content="noindex, nofollow" />
 
   <style>
@@ -18,8 +17,8 @@
       --muted:#a8b0bb;
       --line:rgba(255,255,255,.10);
       --line2:rgba(255,255,255,.07);
-      --accent:#c9d2dc;   /* "stříbro" */
-      --accent2:#b9a46a;  /* "pergamen" */
+      --accent:#c9d2dc;
+      --accent2:#b9a46a;
       --good:#84d69a;
       --warn:#f0c36b;
       --shadow: 0 18px 60px rgba(0,0,0,.55);
@@ -247,12 +246,7 @@
     }
     .empty.show{ display:block; }
 
-    /* Books layout */
-    .book{
-      display:none;
-      animation: fadeIn .18s ease-out both;
-      margin-bottom: 22px;
-    }
+    .book{ display:none; animation: fadeIn .18s ease-out both; margin-bottom: 22px; }
     .book.active{ display:block; }
     @keyframes fadeIn{ from{ opacity:0; transform: translateY(6px);} to{ opacity:1; transform: translateY(0);} }
 
@@ -264,23 +258,10 @@
       margin: 18px 0 10px;
       flex-wrap: wrap;
     }
-    .book-head h2{
-      margin:0;
-      font-size: 18px;
-      letter-spacing:.3px;
-    }
-    .book-head .meta{
-      margin:0;
-      color: var(--muted);
-      font-size: 13px;
-    }
+    .book-head h2{ margin:0; font-size: 18px; letter-spacing:.3px; }
+    .book-head .meta{ margin:0; color: var(--muted); font-size: 13px; }
 
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-    }
-
+    .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
     .card{
       grid-column: span 12;
       border: 1px solid var(--line);
@@ -288,15 +269,10 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow:hidden;
-      scroll-margin-top: 140px; /* anchor offsets for sticky header */
+      scroll-margin-top: 140px;
     }
-
-    @media (min-width: 720px){
-      .card{ grid-column: span 6; }
-    }
-    @media (min-width: 1020px){
-      .card{ grid-column: span 4; }
-    }
+    @media (min-width: 720px){ .card{ grid-column: span 6; } }
+    @media (min-width: 1020px){ .card{ grid-column: span 4; } }
 
     details{ padding: 0; }
     summary{
@@ -312,32 +288,12 @@
     summary:focus-visible{ box-shadow: var(--focus); }
     summary::-webkit-details-marker{ display:none; }
 
-    .topline{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .chapterTitle{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-width: 0;
-    }
-    .chapterTitle .name{
-      margin:0;
-      font-weight: 850;
-      font-size: 14.5px;
-      letter-spacing:.2px;
-    }
+    .topline{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .chapterTitle{ display:flex; flex-direction:column; gap:4px; min-width: 0; }
+    .chapterTitle .name{ margin:0; font-weight: 850; font-size: 14.5px; letter-spacing:.2px; }
     .chapterTitle .hint{
-      margin:0;
-      color: var(--muted);
-      font-size: 12.5px;
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      margin:0; color: var(--muted); font-size: 12.5px; line-height: 1.2;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
     .badge{
@@ -359,28 +315,16 @@
       border-top: 1px solid rgba(255,255,255,.07);
     }
 
-    .row{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
+    .row{ display:grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; }
 
     .kvs{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
+      display:flex; flex-direction:column; gap:8px;
       padding: 10px;
       border: 1px solid rgba(255,255,255,.08);
       border-radius: var(--radius2);
       background: rgba(255,255,255,.02);
     }
-    .kv{
-      display:flex;
-      gap:10px;
-      align-items:baseline;
-      min-width: 0;
-    }
+    .kv{ display:flex; gap:10px; align-items:baseline; min-width: 0; }
     .kv .k{
       flex: 0 0 auto;
       font-size: 12px;
@@ -389,12 +333,7 @@
       text-transform: uppercase;
       font-weight: 800;
     }
-    .kv .v{
-      min-width:0;
-      font-size: 13px;
-      color: var(--ink);
-      line-height: 1.35;
-    }
+    .kv .v{ min-width:0; font-size: 13px; color: var(--ink); line-height: 1.35; }
     .muted{ color: var(--muted); }
 
     .summaryText{
@@ -410,7 +349,6 @@
       font-size: 13.25px;
     }
 
-    /* Image frame (chapter + book) */
     .imgFrame{
       width: 100%;
       border-radius: var(--radius2);
@@ -419,11 +357,7 @@
       overflow:hidden;
       position: relative;
     }
-    .imgFrame img{
-      width: 100%;
-      height: auto;
-      display:block;
-    }
+    .imgFrame img{ width: 100%; height: auto; display:block; }
     .imgFrame .imgPh{
       padding: 14px 12px;
       color: rgba(168,176,187,.9);
@@ -433,23 +367,14 @@
         radial-gradient(600px 240px at 20% 0%, rgba(201,210,220,.08), transparent 55%),
         radial-gradient(620px 240px at 85% 0%, rgba(185,164,106,.08), transparent 55%),
         rgba(255,255,255,.02);
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
+      display:flex; gap:10px; align-items:flex-start;
     }
     .imgPh b{ color: rgba(231,234,238,.95); }
     .imgPh svg{ width:18px; height:18px; opacity:.8; flex:0 0 auto; margin-top: 1px; }
 
-    .imgActions{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top: 10px;
-    }
+    .imgActions{ display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px; }
     .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
+      display:inline-flex; align-items:center; gap:8px;
       padding: 8px 10px;
       border-radius: var(--radiusPill);
       border: 1px solid var(--line);
@@ -466,20 +391,11 @@
     .btn.secondary{ color: var(--muted); }
     .btn svg{ width:16px; height:16px; opacity:.85; }
 
-    /* Book gallery */
-    .gallery{
-      display:flex;
-      gap:10px;
-      overflow:auto;
-      padding-bottom: 6px;
-      scroll-snap-type: x mandatory;
-    }
+    .gallery{ display:flex; gap:10px; overflow:auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
     .gallery::-webkit-scrollbar{ height: 10px; }
     .gallery::-webkit-scrollbar-thumb{ background: rgba(255,255,255,.08); border-radius: 999px; }
     .thumb{
-      min-width: 220px;
-      max-width: 320px;
-      flex: 0 0 auto;
+      min-width: 220px; max-width: 320px; flex: 0 0 auto;
       scroll-snap-align: start;
       border-radius: var(--radius2);
       border: 1px solid rgba(255,255,255,.10);
@@ -489,8 +405,7 @@
     }
     .thumb img{ width:100%; display:block; }
     .thumb .cap{
-      position:absolute;
-      inset:auto 10px 10px 10px;
+      position:absolute; inset:auto 10px 10px 10px;
       padding: 8px 10px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,.12);
@@ -500,44 +415,26 @@
       color: rgba(231,234,238,.95);
     }
 
-    /* Index (Rejstřík) */
-    .indexWrap{
-      display:none;
-      animation: fadeIn .18s ease-out both;
-    }
+    .indexWrap{ display:none; animation: fadeIn .18s ease-out both; }
     .indexWrap.active{ display:block; }
 
     .idxHead{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap: wrap;
-      margin: 12px 0 10px;
+      display:flex; align-items:flex-end; justify-content:space-between; gap:14px;
+      flex-wrap: wrap; margin: 12px 0 10px;
     }
     .idxHead h2{ margin:0; font-size: 18px; letter-spacing:.3px; }
     .idxHead p{ margin:0; color: var(--muted); font-size: 13px; }
 
-    .idxControls{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap: wrap;
-      margin: 10px 0 14px;
-    }
-
+    .idxControls{ display:flex; gap:10px; align-items:center; flex-wrap: wrap; margin: 10px 0 14px; }
     .chips{
-      display:flex;
-      gap:8px;
-      padding: 6px;
+      display:flex; gap:8px; padding: 6px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,.03);
       border-radius: var(--radiusPill);
       flex-wrap: wrap;
     }
     .chip{
-      cursor:pointer;
-      user-select:none;
+      cursor:pointer; user-select:none;
       border: 1px solid transparent;
       color: var(--muted);
       background: transparent;
@@ -552,14 +449,8 @@
       border-color: rgba(201,210,220,.22);
     }
 
-    .idxGrid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    @media (min-width: 980px){
-      .idxGrid{ grid-template-columns: 1.1fr .9fr; }
-    }
+    .idxGrid{ display:grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 980px){ .idxGrid{ grid-template-columns: 1.1fr .9fr; } }
 
     .panel{
       border: 1px solid var(--line);
@@ -573,9 +464,7 @@
       background: linear-gradient(180deg, rgba(15,21,28,.92), rgba(15,21,28,.75));
       border-bottom: 1px solid rgba(255,255,255,.07);
     }
-    .panelHead .row2{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
-    }
+    .panelHead .row2{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
     .panelHead h3{
       margin:0;
       font-size: 14px;
@@ -594,17 +483,9 @@
       white-space: nowrap;
     }
 
-    .list{
-      padding: 10px 12px 12px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
+    .list{ padding: 10px 12px 12px; display:flex; flex-direction:column; gap:8px; }
     .item{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
       padding: 10px 10px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.08);
@@ -619,12 +500,7 @@
       background: rgba(185,164,106,.04);
     }
     .item:focus-visible{ outline:none; box-shadow: var(--focus); }
-    .item .left{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-width: 0;
-    }
+    .item .left{ display:flex; flex-direction:column; gap:4px; min-width: 0; }
     .item .name{ font-weight: 820; font-size: 13.5px; margin:0; }
     .item .sub{ margin:0; font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
     .pillMini{
@@ -639,14 +515,9 @@
       margin-top: 2px;
     }
 
-    /* Modal */
     .modal{
-      position: fixed;
-      inset:0;
-      z-index: 90;
-      display:none;
-      align-items:center;
-      justify-content:center;
+      position: fixed; inset:0; z-index: 90;
+      display:none; align-items:center; justify-content:center;
       padding: 24px 14px;
       background: rgba(0,0,0,.62);
       backdrop-filter: blur(10px);
@@ -662,37 +533,18 @@
       box-shadow: 0 30px 100px rgba(0,0,0,.72);
     }
     .dialogTop{
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 10px;
+      position: sticky; top: 0; z-index: 1;
+      display:flex; align-items:flex-start; justify-content:space-between; gap: 10px;
       padding: 14px 14px 12px;
       border-bottom: 1px solid rgba(255,255,255,.08);
       background: linear-gradient(180deg, rgba(15,21,28,.96), rgba(15,21,28,.78));
       backdrop-filter: blur(10px);
     }
-    .dialogTitle{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-width: 0;
-    }
-    .dialogTitle h3{
-      margin:0;
-      font-weight: 900;
-      letter-spacing: .2px;
-      font-size: 16px;
-    }
+    .dialogTitle{ display:flex; flex-direction:column; gap:4px; min-width: 0; }
+    .dialogTitle h3{ margin:0; font-weight: 900; letter-spacing: .2px; font-size: 16px; }
     .dialogTitle p{
-      margin:0;
-      color: var(--muted);
-      font-size: 13px;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
+      margin:0; color: var(--muted); font-size: 13px;
+      white-space: nowrap; overflow:hidden; text-overflow: ellipsis;
     }
     .xbtn{
       padding: 8px 10px;
@@ -706,28 +558,13 @@
     .xbtn:hover{ transform: translateY(-1px); }
     .xbtn:focus-visible{ outline:none; box-shadow: var(--focus); }
 
-    .dialogBody{
-      padding: 12px 14px 14px;
-    }
-    .dialogGrid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    @media (min-width: 920px){
-      .dialogGrid{ grid-template-columns: 1.1fr .9fr; }
-    }
+    .dialogBody{ padding: 12px 14px 14px; }
+    .dialogGrid{ display:grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 920px){ .dialogGrid{ grid-template-columns: 1.1fr .9fr; } }
 
-    .occ{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
+    .occ{ display:flex; flex-direction:column; gap:8px; }
     .occ a{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      justify-content:space-between;
+      display:flex; gap:10px; align-items:flex-start; justify-content:space-between;
       text-decoration:none;
       padding: 10px;
       border-radius: 14px;
@@ -741,8 +578,11 @@
     }
     .occ .t{ font-weight: 820; font-size: 13px; margin:0; }
     .occ .s{ margin:0; color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
-    .occ .tag{ font-size: 11.5px; padding: 6px 9px; border-radius: var(--radiusPill);
-               border: 1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.02); color: var(--muted); white-space: nowrap; }
+    .occ .tag{
+      font-size: 11.5px; padding: 6px 9px; border-radius: var(--radiusPill);
+      border: 1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.02);
+      color: var(--muted); white-space: nowrap;
+    }
 
     .footer-note{
       margin-top: 18px;
@@ -752,7 +592,6 @@
       opacity: .95;
     }
 
-    /* Hide blocks toggles */
     .hide-people .people{ display:none !important; }
     .hide-places .places{ display:none !important; }
     .hide-rulers .rulers{ display:none !important; }
@@ -816,12 +655,10 @@
     <main>
       <div class="empty" id="empty">Nic jsem nenašel. Zkus ubrat filtr nebo napsat kratší dotaz.</div>
 
-      <!-- BOOKS -->
       <section id="panelBooks" role="tabpanel" aria-labelledby="tabBooks">
         <div id="booksMount"></div>
       </section>
 
-      <!-- INDEX -->
       <section class="indexWrap" id="panelIndex" role="tabpanel" aria-labelledby="tabIndex">
         <div class="idxHead">
           <div>
@@ -894,7 +731,6 @@
     </main>
   </div>
 
-  <!-- MODAL -->
   <div class="modal" id="modal" aria-hidden="true">
     <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="dialogTop">
@@ -946,9 +782,6 @@
 
   <script>
   (() => {
-    // ------------------
-    // Helpers
-    // ------------------
     const $ = (id) => document.getElementById(id);
     const esc = (s) => String(s ?? '')
       .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
@@ -961,11 +794,7 @@
       .replace(/(^-|-$)/g,'')
       .slice(0, 80) || 'x';
 
-    const uniq = (arr) => [...new Set(arr.filter(Boolean))];
-
-    // ------------------
     // DOM refs
-    // ------------------
     const root = $('root');
     const empty = $('empty');
     const booksMount = $('booksMount');
@@ -992,7 +821,6 @@
     const indexList = $('indexList');
     const countResults = $('countResults');
 
-    // Modal
     const modal = $('modal');
     const modalClose = $('modalClose');
     const modalTitle = $('modalTitle');
@@ -1006,44 +834,38 @@
     const openImageBtn = $('openImageBtn');
     const copyLinkBtn = $('copyLinkBtn');
 
-    // ------------------
     // State
-    // ------------------
     let data = null;
-    let activeBook = 'all';     // 'all' | 'first' | 'second'
-    let activeTab = 'books';    // 'books' | 'index'
-    let activeIndexType = 'all';// 'all' | 'person' | 'place' | 'chapter'
+    let activeBook = 'all';
+    let activeTab = 'books';
+    let activeIndexType = 'all';
 
     // Derived
     let bookIds = [];
-    let chapterById = new Map();  // chapterId -> { book, chapter, anchorId }
-    let occByPerson = new Map();  // personKey -> occurrences[]
-    let occByPlace = new Map();   // placeKey -> occurrences[]
-    let indexItems = [];          // all items for index list
-    let entityPeople = new Map(); // key -> { name, desc, image, aliases[] }
-    let entityPlaces = new Map(); // key -> { name, desc, image, aliases[], ruler? }
-    let entityChapters = new Map();// key -> { name, desc, image, aliases[] } (optional enrich)
+    let chapterById = new Map();
+    let occByPerson = new Map();
+    let occByPlace = new Map();
+    let indexItems = [];
+    let entityPeople = new Map();
+    let entityPlaces = new Map();
+    let entityChapters = new Map();
 
-    // ------------------
-    // Rendering blocks
-    // ------------------
+    const uniq = (arr) => [...new Set((arr || []).filter(Boolean))];
+    const normalizeKey = (name) => slugify(name);
+
     function setPressed(activeBtn){
       [btnAll, btnBook1, btnBook2].forEach(b => b.setAttribute('aria-pressed', String(b === activeBtn)));
     }
-
     function setChipPressed(activeChip){
       [chipAll, chipPeople, chipPlaces, chipChapters].forEach(c => c.setAttribute('aria-pressed', String(c === activeChip)));
     }
 
     function setTab(tab){
       activeTab = tab;
-
       tabBooks.setAttribute('aria-selected', String(tab === 'books'));
       tabIndex.setAttribute('aria-selected', String(tab === 'index'));
-
       panelBooks.style.display = (tab === 'books') ? '' : 'none';
       panelIndex.classList.toggle('active', tab === 'index');
-
       applyVisibility();
       if(tab === 'index') renderIndexList();
     }
@@ -1082,11 +904,6 @@
       return a.join(' ').toLowerCase();
     }
 
-    function buildAnchorId(book, ch){
-      // stable-ish id for anchors/links
-      return `ch-${esc(book.id)}-${esc(ch.id || slugify(ch.title))}`;
-    }
-
     function renderBooks(){
       if(!data) return;
 
@@ -1094,14 +911,16 @@
       $('siteSubtitle').textContent = data.site?.subtitle || 'Knihy • kapitoly • rejstřík postav a míst';
       document.title = data.site?.title || document.title;
 
-      booksMount.innerHTML = (data.books || []).map((book, bi) => {
+      const books = Array.isArray(data.books) ? data.books : [];
+
+      booksMount.innerHTML = books.map((book) => {
         const coverHtml = imgFrameHtml(book.cover, book.title, 'Cover knihy');
 
         const gallery = Array.isArray(book.images) ? book.images : [];
         const galleryHtml = (gallery.length > 0)
           ? `
             <div class="gallery" aria-label="Galerie knihy">
-              ${gallery.map((g, i) => `
+              ${gallery.map((g) => `
                 <div class="thumb" tabindex="0" data-modal-image="${esc(g.src || g)}" data-modal-caption="${esc(g.caption || book.title)}">
                   <img src="${esc(g.src || g)}" alt="${esc(g.caption || book.title)}" loading="lazy">
                   ${g.caption ? `<div class="cap">${esc(g.caption)}</div>` : ``}
@@ -1157,9 +976,7 @@
                     </div>
                   </div>
 
-                  <div class="imgFrame" data-image-slot="${esc(ch.image || '')}">
-                    ${imgHtml}
-                  </div>
+                  ${imgHtml}
 
                   ${ch.image ? `
                     <div class="imgActions">
@@ -1207,28 +1024,19 @@
         `;
       }).join('');
 
-      // gallery thumbs open image modal
       booksMount.querySelectorAll('[data-modal-image]').forEach(el => {
         el.addEventListener('click', () => showImageOnly(el.getAttribute('data-modal-image'), el.getAttribute('data-modal-caption')));
         el.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }});
       });
 
-      // chapter image open buttons
       booksMount.querySelectorAll('[data-open-image]').forEach(btn => {
         btn.addEventListener('click', () => showImageOnly(btn.getAttribute('data-open-image'), btn.getAttribute('data-caption')));
       });
     }
 
-    // ------------------
-    // Index building (auto + enrich)
-    // ------------------
     function addOcc(map, key, occ){
       if(!map.has(key)) map.set(key, []);
       map.get(key).push(occ);
-    }
-
-    function normalizeKey(name){
-      return slugify(name);
     }
 
     function getEntity(map, key, fallbackName){
@@ -1246,7 +1054,6 @@
       entityPlaces = new Map();
       entityChapters = new Map();
 
-      // load enrich entities (optional)
       const ents = data.entities || {};
       (ents.people || []).forEach(p => {
         const key = normalizeKey(p.key || p.name);
@@ -1290,33 +1097,16 @@
           const anchorId = `ch-${book.id}-${chId}`;
           const chapterKey = normalizeKey(`${book.id}-${chId}`);
 
-          const chapterRec = { book, chapter: {...ch, id: chId}, anchorId, chapterKey };
-          chapterById.set(chapterKey, chapterRec);
+          chapterById.set(chapterKey, { book, chapter: { ...ch, id: chId }, anchorId, chapterKey });
 
-          // chapter occurrences for its own entry
-          // occurrences are used by entity modal "výskyty"
-          // for chapter itself we'll store one item pointing to itself
-          // (makes modal useful)
-          // We'll also allow chapter detail from index
-          // (desc/image can be enriched via entities.chapters)
-          // Example occurrence:
-          const occ = {
-            chapterKey,
-            anchorId,
-            chapterTitle: ch.title,
-            bookTitle: book.title,
-            bookId: book.id
-          };
+          const occ = { chapterKey, anchorId, chapterTitle: ch.title, bookTitle: book.title, bookId: book.id };
 
-          // People occurrences
           (ch.people || []).forEach(personName => {
             const pKey = normalizeKey(personName);
             addOcc(occByPerson, pKey, occ);
-            // keep minimal entity if not exists
             if(!entityPeople.has(pKey)) entityPeople.set(pKey, { key: pKey, name: personName, desc: '', image: '', aliases: [] });
           });
 
-          // Places occurrences
           (ch.places || []).forEach(place => {
             const placeName = place?.name || '';
             if(!placeName) return;
@@ -1324,16 +1114,8 @@
             addOcc(occByPlace, plKey, occ);
 
             if(!entityPlaces.has(plKey)){
-              entityPlaces.set(plKey, {
-                key: plKey,
-                name: placeName,
-                ruler: place?.ruler || '',
-                desc: '',
-                image: '',
-                aliases: []
-              });
+              entityPlaces.set(plKey, { key: plKey, name: placeName, ruler: place?.ruler || '', desc: '', image: '', aliases: [] });
             } else {
-              // if entity exists but missing ruler, enrich from chapter data
               const ex = entityPlaces.get(plKey);
               if(!ex.ruler && place?.ruler) ex.ruler = place.ruler;
             }
@@ -1341,14 +1123,15 @@
         });
       });
 
-      // build index items list
+      const byName = (a,b)=> a.name.localeCompare(b.name, 'cs', { sensitivity:'base' });
+
       const peopleItems = [...entityPeople.values()].map(p => ({
         type: 'person',
         key: p.key,
         name: p.name,
-        sub: (p.desc && p.desc.trim()) ? p.desc : `Výskyty: ${ (occByPerson.get(p.key) || []).length }`,
+        sub: (p.desc && p.desc.trim()) ? p.desc : `Výskyty: ${(occByPerson.get(p.key) || []).length}`,
         count: (occByPerson.get(p.key) || []).length
-      }));
+      })).sort((a,b)=> (b.count-a.count) || byName(a,b));
 
       const placeItems = [...entityPlaces.values()].map(p => ({
         type: 'place',
@@ -1356,11 +1139,9 @@
         name: p.name,
         sub: p.ruler ? `Vládce: ${p.ruler}` : ((p.desc && p.desc.trim()) ? p.desc : `Výskyty: ${(occByPlace.get(p.key) || []).length}`),
         count: (occByPlace.get(p.key) || []).length
-      }));
+      })).sort((a,b)=> (b.count-a.count) || byName(a,b));
 
-      // chapters index: one entry per chapter
       const chapterItems = [];
-      const books = Array.isArray(data.books) ? data.books : [];
       books.forEach(book => {
         (book.chapters || []).forEach(ch => {
           const chId = ch.id || slugify(ch.title);
@@ -1378,19 +1159,11 @@
           });
         });
       });
-
-      // Sort: primary by type group, then count desc, then name
-      const byName = (a,b)=> a.name.localeCompare(b.name, 'cs', {sensitivity:'base'});
-      peopleItems.sort((a,b)=> (b.count-a.count) || byName(a,b));
-      placeItems.sort((a,b)=> (b.count-a.count) || byName(a,b));
       chapterItems.sort(byName);
 
       indexItems = [...peopleItems, ...placeItems, ...chapterItems];
     }
 
-    // ------------------
-    // Index rendering + modal
-    // ------------------
     function getItemSearchHay(item){
       const names = [item.name];
       if(item.type === 'person'){
@@ -1447,7 +1220,7 @@
         el.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }});
       });
 
-      applyVisibility(); // ensures empty state correctness
+      applyVisibility();
     }
 
     function showModal(){
@@ -1462,15 +1235,14 @@
     }
 
     function showImageOnly(src, caption){
-      // re-use modal as simple image viewer
       modalTitle.textContent = caption || 'Obrázek';
       modalSub.textContent = 'Náhled';
       modalType.textContent = 'obrázek';
       modalAliases.textContent = '—';
       modalOccCount.textContent = '—';
       modalOcc.innerHTML = '';
-
       modalDesc.textContent = caption || '';
+
       modalImageFrame.innerHTML = imgFrameHtml(src, caption || 'obrázek', 'Obrázek');
 
       openImageBtn.style.display = src ? '' : 'none';
@@ -1489,7 +1261,6 @@
     }
 
     function openIndexItem(type, key){
-      // compose entity data
       if(type === 'person'){
         const e = getEntity(entityPeople, key, key);
         const occ = occByPerson.get(key) || [];
@@ -1509,30 +1280,11 @@
           openEntityModal('Kapitola', { name: key, desc: '', image: '', aliases: [] }, [], '—');
           return;
         }
-        const base = {
-          name: rec.chapter.title,
-          desc: rec.chapter.summary || '',
-          image: rec.chapter.image || '',
-          aliases: []
-        };
-
-        // allow enrich chapters by title-key match
+        const base = { name: rec.chapter.title, desc: rec.chapter.summary || '', image: rec.chapter.image || '', aliases: [] };
         const e1 = entityChapters.get(normalizeKey(rec.chapter.title));
-        const merged = {
-          name: base.name,
-          desc: e1?.desc || base.desc,
-          image: e1?.image || base.image,
-          aliases: e1?.aliases || []
-        };
+        const merged = { name: base.name, desc: e1?.desc || base.desc, image: e1?.image || base.image, aliases: e1?.aliases || [] };
 
-        const occ = [{
-          chapterKey: key,
-          anchorId: rec.anchorId,
-          chapterTitle: rec.chapter.title,
-          bookTitle: rec.book.title,
-          bookId: rec.book.id
-        }];
-
+        const occ = [{ chapterKey: key, anchorId: rec.anchorId, chapterTitle: rec.chapter.title, bookTitle: rec.book.title, bookId: rec.book.id }];
         openEntityModal('Kapitola', merged, occ, rec.book.title);
       }
     }
@@ -1544,7 +1296,6 @@
       modalAliases.textContent = (entity.aliases && entity.aliases.length) ? entity.aliases.join(', ') : '—';
       modalDesc.textContent = (entity.desc && String(entity.desc).trim()) ? entity.desc : '—';
 
-      // image
       const src = entity.image || '';
       modalImageFrame.innerHTML = imgFrameHtml(src, entity.name, `${label} – obrázek`);
 
@@ -1561,7 +1312,6 @@
         }catch(e){}
       };
 
-      // occurrences list
       modalOccCount.textContent = `${occurrences.length}`;
       modalOcc.innerHTML = (occurrences.length ? occurrences : []).slice(0, 30).map(o => {
         return `
@@ -1589,11 +1339,8 @@
     }
 
     function jumpToChapter(anchorId, bookId){
-      // go to books tab
       setTab('books');
 
-      // if book filtering is not all, ensure the relevant book is visible
-      // If activeBook is first/second but doesn't match, switch to all.
       if(activeBook !== 'all'){
         const id1 = bookIds[0] || null;
         const id2 = bookIds[1] || null;
@@ -1606,7 +1353,6 @@
 
       applyVisibility();
 
-      // scroll and open <details>
       const el = document.getElementById(anchorId);
       if(!el) return;
 
@@ -1617,20 +1363,15 @@
       if(det) det.open = true;
     }
 
-    // ------------------
-    // Visibility / filtering
-    // ------------------
     function applyVisibility(){
       if(!data) return;
 
-      // detail toggles
       root.classList.toggle('hide-people', !tPeople.checked);
       root.classList.toggle('hide-places', !tPlaces.checked);
       root.classList.toggle('hide-rulers', !tRulers.checked);
 
       const needle = (q.value || '').trim().toLowerCase();
 
-      // if index tab active: empty based on index results
       if(activeTab === 'index'){
         const typeFiltered = indexItems.filter(it => (activeIndexType === 'all') || it.type === activeIndexType);
         const visible = typeFiltered.filter(it => !needle || getItemSearchHay(it).includes(needle));
@@ -1638,9 +1379,7 @@
         return;
       }
 
-      // books tab filtering
       let matches = 0;
-
       const sections = [...booksMount.querySelectorAll('.book')];
       const id1 = bookIds[0] || null;
       const id2 = bookIds[1] || null;
@@ -1657,7 +1396,6 @@
 
         if(!showBook) return;
 
-        // filter cards in this section
         sec.querySelectorAll('.card').forEach(card => {
           const hay = (card.getAttribute('data-tags') || '').toLowerCase();
           const ok = !needle || hay.includes(needle);
@@ -1669,9 +1407,7 @@
       empty.classList.toggle('show', matches === 0);
     }
 
-    // ------------------
-    // Event wiring
-    // ------------------
+    // Events
     btnAll.addEventListener('click', () => { activeBook='all'; setPressed(btnAll); applyVisibility(); });
     btnBook1.addEventListener('click', () => { activeBook='first'; setPressed(btnBook1); applyVisibility(); });
     btnBook2.addEventListener('click', () => { activeBook='second'; setPressed(btnBook2); applyVisibility(); });
@@ -1685,17 +1421,12 @@
     chipChapters.addEventListener('click', () => { activeIndexType='chapter'; setChipPressed(chipChapters); renderIndexList(); });
 
     [tPeople, tPlaces, tRulers].forEach(t => t.addEventListener('change', applyVisibility));
-    q.addEventListener('input', () => {
-      if(activeTab === 'index') renderIndexList();
-      else applyVisibility();
-    });
+    q.addEventListener('input', () => { if(activeTab === 'index') renderIndexList(); else applyVisibility(); });
 
-    // Modal closing
     modalClose.addEventListener('click', hideModal);
     modal.addEventListener('click', (e) => { if(e.target === modal) hideModal(); });
     window.addEventListener('keydown', (e) => { if(e.key === 'Escape' && modal.classList.contains('show')) hideModal(); });
 
-    // Tips open (show example modal)
     $('tip1').addEventListener('click', () => {
       openEntityModal('Tip', {
         name: 'Obohacení osob/míst',
@@ -1721,10 +1452,8 @@
       }, [], 'Jak to funguje');
     });
 
-    // ------------------
-    // Init: load JSON
-    // ------------------
-    fetch('data/books.json', { cache: 'no-store' })
+    // Init
+    fetch('./data/books.json', { cache: 'no-store' })
       .then(r => {
         if(!r.ok) throw new Error('Nepodařilo se načíst data/books.json (zkontroluj cestu a název souboru).');
         return r.json();
@@ -1733,22 +1462,16 @@
         data = j;
         renderBooks();
         buildIndexData();
-        // Update book buttons names if present
-        const books = data.books || [];
+
+        const books = Array.isArray(data.books) ? data.books : [];
         btnBook1.textContent = books[0]?.shortTitle || books[0]?.title || 'Kniha 1';
         btnBook2.textContent = books[1]?.shortTitle || books[1]?.title || 'Kniha 2';
 
-        // Initial view
         setTab('books');
         applyVisibility();
 
-        // Deep-link to chapter anchor: open it
         const hash = (location.hash || '').slice(1);
         if(hash && hash.startsWith('ch-')){
-          // Find bookId from anchor id: ch-<bookId>-<chapterId>
-          const parts = hash.split('-');
-          const bookId = parts.length >= 3 ? parts[1] : null;
-          // show all if needed
           activeBook = 'all';
           setPressed(btnAll);
           applyVisibility();
@@ -1766,60 +1489,5 @@
       });
   })();
   </script>
-
-  <!--
-    ------------------------------
-    JSON SPEC (rychlý přehled)
-    ------------------------------
-
-    data/books.json:
-
-    {
-      "site": { "title": "...", "subtitle": "..." },
-      "books": [
-        {
-          "id": "pp",
-          "title": "Poslední přání",
-          "shortTitle": "Poslední přání",        // volitelné (na tlačítka)
-          "subtitle": "volitelné",
-          "year": 1993,                          // volitelné
-          "cover": "assets/img/covers/pp.webp",   // volitelné
-          "images": [                             // volitelné gallery (víc obrázků)
-            { "src": "assets/img/covers/pp.webp", "caption": "Cover" },
-            { "src": "assets/img/books/pp-1.webp", "caption": "Mood" }
-          ],
-          "chapters": [
-            {
-              "id": "hlas-rozumu",               // volitelné (když chybí, generuje se ze title)
-              "title": "Hlas rozumu (rámec)",
-              "typeBadge": "rámcový děj",
-              "summary": "…",
-              "notes": "volitelná poznámka",
-              "image": "assets/img/chapters/ellander.webp",  // volitelné
-              "people": ["Geralt", "Nenneke"],
-              "places": [
-                { "name": "Ellander (chrám Melitelé)", "ruler": "kníže Hereward" }
-              ],
-              "tags": ["ellander","chrám"]
-            }
-          ]
-        }
-      ],
-
-      "entities": {  // volitelné obohacení rejstříku
-        "people": [
-          { "key":"geralt", "name":"Geralt", "desc":"…", "image":"assets/img/people/geralt.webp", "aliases":["Bílý vlk"] }
-        ],
-        "places": [
-          { "key":"novigrad", "name":"Novigrad", "ruler":"hierarcha", "desc":"…", "image":"assets/img/places/novigrad.webp", "aliases":[] }
-        ],
-        "chapters": [
-          { "key":"hlas-rozumu", "name":"Hlas rozumu (rámec)", "desc":"…", "image":"assets/img/chapters/ellander.webp", "aliases":[] }
-        ]
-      }
-    }
-
-    Pozn.: Rejstřík se vytváří automaticky z kapitol (people/places) a entities.* je jen „enrichment“.
-  -->
 </body>
 </html>
