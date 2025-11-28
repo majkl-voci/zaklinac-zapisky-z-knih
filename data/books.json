@@ -105,7 +105,6 @@
         }
       ]
     },
-
     {
       "id": "mo",
       "title": "Meč osudu",
@@ -195,7 +194,6 @@
       ]
     }
   ],
-
   "entities": {
     "people": [
       {
