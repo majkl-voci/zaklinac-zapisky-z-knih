@@ -1,0 +1,48 @@
+{
+  "site": {
+    "title": "Zaklínač – zápisky z knih",
+    "subtitle": "Poslední přání + Meč osudu • přehled po povídkách"
+  },
+  "books": [
+    {
+      "id": "pp",
+      "title": "Poslední přání",
+      "year": null,
+      "cover": "assets/img/covers/posledni-prani.webp",
+      "chapters": [
+        {
+          "id": "pp-hlas-rozumu",
+          "title": "Hlas rozumu (rámec)",
+          "typeBadge": "rámcový děj",
+          "summary": "Geralt se léčí po souboji se strigou v chrámu Melitelé. Rozhovory otevírají neutralitu, řemeslo a tlak okolí.",
+          "people": ["Geralt", "Nenneke", "Iola", "Marigold"],
+          "places": [
+            { "name": "Ellander (chrám Melitelé)", "ruler": "kníže Hereward" }
+          ],
+          "image": "assets/img/chapters/ellander.webp",
+          "tags": ["ellander", "melitelé", "chrám", "zranění", "neutralita"]
+        }
+      ]
+    },
+    {
+      "id": "mo",
+      "title": "Meč osudu",
+      "year": null,
+      "cover": "assets/img/covers/mec-osudu.webp",
+      "chapters": [
+        {
+          "id": "mo-vecny-ohel",
+          "title": "Věčný oheň",
+          "typeBadge": "povídka",
+          "summary": "V Novigradu doppler Dudu převezme identitu půlčíka Daintyho a paradoxně mu zlepší život. Geralt s Marigoldem to rozmotávají.",
+          "people": ["Geralt", "Marigold", "Dainty Biberveldt", "Dudu", "Chappelle", "Vimme Vivaldi"],
+          "places": [
+            { "name": "Novigrad", "ruler": "hierarcha (jméno neuvedeno)" }
+          ],
+          "image": "assets/img/chapters/novigrad.webp",
+          "tags": ["novigrad", "doppler", "dudu", "vime", "chappelle"]
+        }
+      ]
+    }
+  ]
+}
