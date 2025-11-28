@@ -916,20 +916,43 @@
       booksMount.innerHTML = books.map((book) => {
         const coverHtml = imgFrameHtml(book.cover, book.title, 'Cover knihy');
 
-        const gallery = Array.isArray(book.images) ? book.images : [];
-        const galleryHtml = (gallery.length > 0)
-          ? `
-            <div class="gallery" aria-label="Galerie knihy">
-              ${gallery.map((g) => `
-                <div class="thumb" tabindex="0" data-modal-image="${esc(g.src || g)}" data-modal-caption="${esc(g.caption || book.title)}">
-                  <img src="${esc(g.src || g)}" alt="${esc(g.caption || book.title)}" loading="lazy">
-                  ${g.caption ? `<div class="cap">${esc(g.caption)}</div>` : ``}
-                </div>
-              `).join('')}
-            </div>
-          `
-          : imgFrameHtml(null, '', 'Galerie knihy (může být více obrázků)');
+        //const gallery = Array.isArray(book.images) ? book.images : [];
+      //const galleryHtml = (gallery.length > 0)
+          //? `
+            //<div class="gallery" aria-label="Galerie knihy">
+              //${gallery.map((g) => `
+                //<div class="thumb" tabindex="0" data-modal-image="${esc(g.src || g)}" data-modal-caption="${esc(g.caption || book.title)}">
+                  //<img src="${esc(g.src || g)}" alt="${esc(g.caption || book.title)}" loading="lazy">
+                 // ${g.caption ? `<div class="cap">${esc(g.caption)}</div>` : ``}
+               // </div>
+             // `).join('')}
+            //</div>
+         // `
+         // : imgFrameHtml(null, '', 'Galerie knihy (může být více obrázků)');
 
+//vlozeno nove
+        const coverSrc = (book.cover || '').trim();
+
+const galleryRaw = Array.isArray(book.images) ? book.images : [];
+const gallery = galleryRaw
+  .map(g => (typeof g === 'string' ? { src: g } : g))
+  .filter(g => ((g?.src || '').trim()) && ((g.src || '').trim() !== coverSrc)); // vyhodí cover z galerie
+
+const galleryHtml = (gallery.length > 0)
+  ? `
+    <div class="gallery" aria-label="Galerie knihy">
+      ${gallery.map((g) => `
+        <div class="thumb" tabindex="0" data-modal-image="${esc(g.src)}" data-modal-caption="${esc(g.caption || book.title)}">
+          <img src="${esc(g.src)}" alt="${esc(g.caption || book.title)}" loading="lazy">
+          ${g.caption ? `<div class="cap">${esc(g.caption)}</div>` : ``}
+        </div>
+      `).join('')}
+    </div>
+  `
+  : imgFrameHtml(null, '', 'Galerie knihy (může být více obrázků)');
+
+        //vlozeno nove
+        
         const chapters = Array.isArray(book.chapters) ? book.chapters : [];
         const chaptersHtml = chapters.map((ch) => {
           const chId = ch.id || slugify(ch.title);
@@ -1491,3 +1514,4 @@
   </script>
 </body>
 </html>
+
