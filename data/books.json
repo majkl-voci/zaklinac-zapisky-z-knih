@@ -11,7 +11,12 @@
       "subtitle": "Rámec z chrámu + první známé povídky s Geraltem",
       "year": null,
       "cover": "assets/img/covers/posledni-prani.webp",
-      "images": [],
+      "images": [
+        {
+          "src": "assets/img/covers/posledni-prani.webp",
+          "caption": "Cover (volitelné)"
+        }
+      ],
       "chapters": [
         {
           "id": "hlas-rozumu",
