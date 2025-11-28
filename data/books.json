@@ -1,48 +1,266 @@
 {
   "site": {
     "title": "Zaklínač – zápisky z knih",
-    "subtitle": "Poslední přání + Meč osudu • přehled po povídkách"
+    "subtitle": "Poslední přání + Meč osudu • přehled po povídkách + rejstřík"
   },
   "books": [
     {
       "id": "pp",
       "title": "Poslední přání",
+      "shortTitle": "Poslední přání",
+      "subtitle": "Rámec z chrámu + první známé povídky s Geraltem",
       "year": null,
       "cover": "assets/img/covers/posledni-prani.webp",
+      "images": [
+        {
+          "src": "assets/img/covers/posledni-prani.webp",
+          "caption": "Cover (volitelné)"
+        }
+      ],
       "chapters": [
         {
-          "id": "pp-hlas-rozumu",
+          "id": "hlas-rozumu",
           "title": "Hlas rozumu (rámec)",
           "typeBadge": "rámcový děj",
-          "summary": "Geralt se léčí po souboji se strigou v chrámu Melitelé. Rozhovory otevírají neutralitu, řemeslo a tlak okolí.",
+          "summary": "Geralt se po těžkým zranění dává dohromady v chrámu Melitelé. V rozhovorech s Nenneke se řeší neutralita, pověst zaklínačů a tlak okolí. Rámec postupně propojuje ostatní povídky.",
+          "notes": "Tip: sem se hodí obrázek chrámu / Ellanderu.",
+          "image": "assets/img/chapters/ellander.webp",
           "people": ["Geralt", "Nenneke", "Iola", "Marigold"],
           "places": [
-            { "name": "Ellander (chrám Melitelé)", "ruler": "kníže Hereward" }
+            { "name": "Ellander (chrám Melitelé)", "ruler": "král Foltest (Temerie)" }
           ],
-          "image": "assets/img/chapters/ellander.webp",
-          "tags": ["ellander", "melitelé", "chrám", "zranění", "neutralita"]
+          "tags": ["chrám", "melitelé", "ellander", "neutralita", "marigold"]
+        },
+        {
+          "id": "zaklinac",
+          "title": "Zaklínač",
+          "typeBadge": "povídka",
+          "summary": "V městě Vizima se řeší prokletí a monstrum, který ohrožuje lidi i politiku. Geralt je vtaženej do hry, kde se míchá strach, moc a předsudky. Nejde jen o souboj, ale o to, kdo na tom vlastně vydělá.",
+          "image": "assets/img/chapters/vizima.webp",
+          "people": ["Geralt", "král Foltest", "striga"],
+          "places": [
+            { "name": "Vizima", "ruler": "král Foltest (Temerie)" }
+          ],
+          "tags": ["vizima", "foltest", "striga", "prokletí", "politika"]
+        },
+        {
+          "id": "zrnko-pravdy",
+          "title": "Zrnko pravdy",
+          "typeBadge": "povídka",
+          "summary": "Geralt narazí na prokletý sídlo a bytost, která působí jako monstrum, ale věci nejsou tak černobílý. Příběh je hlavně o tom, co je „příšera“ a co je jen maska. A že některý prokletí živí spíš lidi než magie.",
+          "image": "assets/img/chapters/zrnko.webp",
+          "people": ["Geralt", "Nivellen", "Vereena"],
+          "places": [
+            { "name": "odloučené panství (lokace neuvedena)", "ruler": "neuveden" }
+          ],
+          "tags": ["prokletí", "nivellen", "morálka", "předsudky"]
+        },
+        {
+          "id": "mensi-zlo",
+          "title": "Menší zlo",
+          "typeBadge": "povídka",
+          "summary": "Geralt se ocitne v situaci, kde si nemůže vybrat „dobře“ – jen míň špatně. Neutralita dostává facku realitou, protože pasivita je taky volba. Povídka je typickej zaklínačskej test charakteru.",
+          "image": "assets/img/chapters/mensi-zlo.webp",
+          "people": ["Geralt", "Renfri", "Stregobor"],
+          "places": [
+            { "name": "Blaviken", "ruler": "neuveden" }
+          ],
+          "tags": ["blaviken", "renfri", "stregobor", "neutralita", "dilema"]
+        },
+        {
+          "id": "otazka-ceny",
+          "title": "Otázka ceny",
+          "typeBadge": "povídka",
+          "summary": "Dvůr v Cintrě řeší politiku, sňatky a nárok na ruku princezny – a do toho vstoupí Law of Surprise. Geralt je zatáhnutej do událostí, který mají dlouhej dopad. Není to akce, je to šachovnice.",
+          "image": "assets/img/chapters/cintra.webp",
+          "people": ["Geralt", "královna Calanthé", "Pavetta", "Duny (Ježek)"],
+          "places": [
+            { "name": "Cintra", "ruler": "královna Calanthé" }
+          ],
+          "tags": ["cintra", "calanthe", "pavetta", "law-of-surprise", "dvůr"]
+        },
+        {
+          "id": "konec-sveta",
+          "title": "Konec světa",
+          "typeBadge": "povídka",
+          "summary": "Lidi a nelidi jedou každej svůj příběh a jejich pravdy se míjej. Geralt tu víc pozoruje než seká – a zjišťuje, že starý křivdy nikam nezmizely. Spíš jen čekají na další jiskru.",
+          "image": "assets/img/chapters/konec-sveta.webp",
+          "people": ["Geralt", "Marigold", "Toruviel", "Filavandrel"],
+          "places": [
+            { "name": "kraj na hraně lidskýho osídlení (konkrétní město neuvedeno)", "ruler": "neuveden" }
+          ],
+          "tags": ["elfové", "nelidé", "toruviel", "filavandrel", "hranice"]
+        },
+        {
+          "id": "posledni-prani",
+          "title": "Poslední přání",
+          "typeBadge": "povídka",
+          "summary": "Magie se rozjede, až to začne bejt nebezpečný i pro město. Geralt a Marigold se zamotají do událostí kolem džina – a hlavně do setkání s Yennefer. Tahle povídka definuje jeden z nejdůležitějších vztahů celé ságy.",
+          "image": "assets/img/chapters/dzin.webp",
+          "people": ["Geralt", "Marigold", "Yennefer", "džin"],
+          "places": [
+            { "name": "město (v povídce ne vždy explicitně zafixováno jako „město X“)", "ruler": "neuveden" }
+          ],
+          "tags": ["yennefer", "džin", "marigold", "osud", "magie"]
         }
       ]
     },
+
     {
       "id": "mo",
       "title": "Meč osudu",
+      "shortTitle": "Meč osudu",
+      "subtitle": "Osud, Ciri, vztahy a mnohem víc „lidská“ rovina světa",
       "year": null,
       "cover": "assets/img/covers/mec-osudu.webp",
+      "images": [
+        {
+          "src": "assets/img/covers/mec-osudu.webp",
+          "caption": "Cover (volitelné)"
+        }
+      ],
       "chapters": [
         {
-          "id": "mo-vecny-ohel",
+          "id": "hranice-moznosti",
+          "title": "Hranice možností",
+          "typeBadge": "povídka",
+          "summary": "Hon na draka přitáhne šlechtu, lovce i kouzelnice – každej z jinýho důvodu. Geralt je v tom jako „ten, kdo ví, jak to opravdu chodí“, ale stejně narazí na hranice kompromisů. A znovu: největší zlo často nejsou monstra.",
+          "image": "assets/img/chapters/drak.webp",
+          "people": ["Geralt", "Yennefer", "Marigold", "Borch Tři Kavky"],
+          "places": [
+            { "name": "cesta / tábořiště (konkrétní město neuvedeno)", "ruler": "neuveden" }
+          ],
+          "tags": ["drak", "borch", "yennefer", "konflikt", "morálka"]
+        },
+        {
+          "id": "stripek-ledu",
+          "title": "Střípek ledu",
+          "typeBadge": "povídka",
+          "summary": "Vztahová povídka, která řeže víc než meč. Geralt a Yennefer naráží na limity toho, co od sebe čekají – a co jsou schopní dát. Je to studený, nepříjemný a zároveň strašně lidský.",
+          "image": "assets/img/chapters/led.webp",
+          "people": ["Geralt", "Yennefer", "Istredd"],
+          "places": [
+            { "name": "Aedd Gynvael (město)", "ruler": "neuveden" }
+          ],
+          "tags": ["yennefer", "istredd", "vztahy", "emoce", "aedd-gynvael"]
+        },
+        {
+          "id": "vecny-ohen",
           "title": "Věčný oheň",
           "typeBadge": "povídka",
-          "summary": "V Novigradu doppler Dudu převezme identitu půlčíka Daintyho a paradoxně mu zlepší život. Geralt s Marigoldem to rozmotávají.",
+          "summary": "V Novigradu se řeší doppler, identita a to, jak málo lidi opravdu vidí do života druhých. Dudu není „zlej“, spíš se snaží přežít a najít si místo. Geralt s Marigoldem to rozmotají a výsledkem je vlastně dost nečekaná „oprava“ života jednoho půlčíka.",
+          "image": "assets/img/chapters/novigrad.webp",
           "people": ["Geralt", "Marigold", "Dainty Biberveldt", "Dudu", "Chappelle", "Vimme Vivaldi"],
           "places": [
-            { "name": "Novigrad", "ruler": "hierarcha (jméno neuvedeno)" }
+            { "name": "Novigrad", "ruler": "Hierarcha Novigradu (neuvedeno jménem)" }
           ],
-          "image": "assets/img/chapters/novigrad.webp",
-          "tags": ["novigrad", "doppler", "dudu", "vime", "chappelle"]
+          "tags": ["novigrad", "doppler", "dudu", "chappelle", "vivaldi"]
+        },
+        {
+          "id": "trochu-obeti",
+          "title": "Trochu oběti",
+          "typeBadge": "povídka",
+          "summary": "Moře, prokletí a pohádka narvaná realitou. Vedle hlavní zakázky se řeší i věci, který se „nevejdou do kontraktu“ – city, zodpovědnost, vlastní limity. Tady je krásně vidět, že zaklínač někdy platí víc než zlaťáky.",
+          "image": "assets/img/chapters/more.webp",
+          "people": ["Geralt", "Dandelion/Marigold", "Essi Daven", "Agloval", "Sh'eenaz"],
+          "places": [
+            { "name": "Bremervoord", "ruler": "kníže Agloval" }
+          ],
+          "tags": ["bremervoord", "essi", "agloval", "moře", "oběť"]
+        },
+        {
+          "id": "mec-osudu",
+          "title": "Meč osudu",
+          "typeBadge": "povídka",
+          "summary": "Brokilon není jen les – je to pravidlo, hranice a jiná kultura. Geralt se tu potká s Ciri v situaci, která vypadá náhodně… ale svět Zaklínače se ti směje do ksichtu: osud. Základní stavební kámen pro další díly.",
+          "image": "assets/img/chapters/brokilon.webp",
+          "people": ["Geralt", "Ciri", "Eithné", "dryády"],
+          "places": [
+            { "name": "Brokilon", "ruler": "královna Eithné" }
+          ],
+          "tags": ["brokilon", "ciri", "eithne", "osud", "dryády"]
+        },
+        {
+          "id": "neco-vic",
+          "title": "Něco víc",
+          "typeBadge": "povídka",
+          "summary": "Tahle povídka dotahuje téma osudu až do bodu, kdy už se to nedá ukecat neutralitou. Válka a chaos ukážou cenu lidskýho života i toho, co člověk považoval za „jen práci“. A pak přijde něco víc – spojení, který má vydržet.",
+          "image": "assets/img/chapters/neco-vic.webp",
+          "people": ["Geralt", "Ciri", "Yurga", "Visenna"],
+          "places": [
+            { "name": "cesta / venkov (místo není jedno konkrétní město)", "ruler": "neuveden" }
+          ],
+          "tags": ["osud", "ciri", "válka", "yurga", "visenna"]
         }
       ]
     }
-  ]
+  ],
+
+  "entities": {
+    "people": [
+      {
+        "key": "geralt",
+        "name": "Geralt",
+        "desc": "Zaklínač – profesionál na monstra, kterej se pořád snaží držet neutralitu, i když mu to svět systematicky znemožňuje.",
+        "image": "assets/img/people/geralt.webp",
+        "aliases": ["Bílý vlk", "Řezník z Blavikenu"]
+      },
+      {
+        "key": "yennefer",
+        "name": "Yennefer",
+        "desc": "Kouzelnice s tvrdým pragmatismem a komplikovaným vztahem ke Geraltovi. Umí být brutálně upřímná i zranitelná.",
+        "image": "assets/img/people/yennefer.webp",
+        "aliases": ["Yen"]
+      },
+      {
+        "key": "ciri",
+        "name": "Ciri",
+        "desc": "Dítě osudu. Setkání s Geraltem je klíčový bod celé ságy.",
+        "image": "assets/img/people/ciri.webp",
+        "aliases": ["Cirilla"]
+      },
+      {
+        "key": "marigold",
+        "name": "Marigold",
+        "desc": "Básník, kamarád a průser-magnet. Často komentuje dění s nadhledem, ale umí být i vážnej, když jde do tuhýho.",
+        "image": "assets/img/people/marigold.webp",
+        "aliases": ["Dandelion", "Jaskier"]
+      }
+    ],
+    "places": [
+      {
+        "key": "vizima",
+        "name": "Vizima",
+        "ruler": "král Foltest (Temerie)",
+        "desc": "Hlavní město Temerie, kde se potkává politika, intriky a „problémy“, které se zametají pod koberec.",
+        "image": "assets/img/places/vizima.webp",
+        "aliases": []
+      },
+      {
+        "key": "cintra",
+        "name": "Cintra",
+        "ruler": "královna Calanthé",
+        "desc": "Dvůr, politika a osud – tady se řeší věci, který budou mít následky i o několik knih dál.",
+        "image": "assets/img/places/cintra.webp",
+        "aliases": []
+      },
+      {
+        "key": "novigrad",
+        "name": "Novigrad",
+        "ruler": "Hierarcha Novigradu (neuvedeno jménem)",
+        "desc": "Obchodní město a centrum kultu Věčného ohně. Dokonalé místo pro příběhy o identitě a pokrytectví.",
+        "image": "assets/img/places/novigrad.webp",
+        "aliases": []
+      },
+      {
+        "key": "brokilon",
+        "name": "Brokilon",
+        "ruler": "královna Eithné",
+        "desc": "Les dryád – vlastní pravidla, žádná romantika, spíš test hranic a osudu.",
+        "image": "assets/img/places/brokilon.webp",
+        "aliases": []
+      }
+    ],
+    "chapters": []
+  }
 }
