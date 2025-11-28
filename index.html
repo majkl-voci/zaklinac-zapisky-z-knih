@@ -1,0 +1,1825 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zaklínač – zápisky z knih</title>
+  <meta name="color-scheme" content="dark" />
+  <!-- doporučení, ať to neleze do vyhledávačů (není to heslo!) -->
+  <meta name="robots" content="noindex, nofollow" />
+
+  <style>
+    :root{
+      --bg0:#07090b;
+      --bg1:#0b1015;
+      --card:#0f151c;
+      --card2:#121b24;
+      --ink:#e7eaee;
+      --muted:#a8b0bb;
+      --line:rgba(255,255,255,.10);
+      --line2:rgba(255,255,255,.07);
+      --accent:#c9d2dc;   /* "stříbro" */
+      --accent2:#b9a46a;  /* "pergamen" */
+      --good:#84d69a;
+      --warn:#f0c36b;
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius: 18px;
+      --radius2: 14px;
+      --radiusPill: 999px;
+      --focus: 0 0 0 3px rgba(185,164,106,.25);
+      --max: 1180px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 800px at 15% 10%, rgba(185,164,106,.14), transparent 60%),
+        radial-gradient(900px 600px at 90% 20%, rgba(201,210,220,.12), transparent 55%),
+        radial-gradient(900px 700px at 60% 95%, rgba(60,120,90,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 50%, var(--bg0));
+      overflow-x:hidden;
+    }
+
+    a{ color: inherit; }
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); border:0;
+    }
+
+    .fog{
+      position: fixed; inset:-40px;
+      background:
+        radial-gradient(600px 300px at 20% 20%, rgba(255,255,255,.05), transparent 60%),
+        radial-gradient(800px 360px at 70% 30%, rgba(255,255,255,.04), transparent 65%),
+        radial-gradient(900px 420px at 45% 70%, rgba(255,255,255,.035), transparent 65%);
+      filter: blur(6px);
+      pointer-events:none;
+      opacity:.9;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    @keyframes drift{
+      from{ transform: translate3d(-10px,-6px,0) scale(1.02); }
+      to  { transform: translate3d(12px,10px,0) scale(1.06); }
+    }
+
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(11,16,21,.90), rgba(11,16,21,.55));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 18px 16px 60px;
+    }
+
+    .top{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap: wrap;
+      padding: 16px 0 10px;
+    }
+
+    .brand{
+      display:flex; gap:12px; align-items:center;
+      min-width: 0;
+      flex: 1 1 420px;
+    }
+
+    .sigil{
+      width: 42px; height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(201,210,220,.18), rgba(185,164,106,.14));
+      border: 1px solid rgba(201,210,220,.25);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      display:grid; place-items:center;
+      flex: 0 0 auto;
+    }
+    .sigil svg{ width: 22px; height: 22px; opacity:.9; }
+
+    .title{
+      min-width: 0;
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .title h1{
+      margin:0;
+      font-size: 15.5px;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+    .title p{
+      margin:0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-end;
+      flex: 1 1 520px;
+      flex-wrap: wrap;
+    }
+
+    .pillbar{
+      display:flex; gap:8px; flex-wrap:wrap;
+      padding: 6px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: var(--radiusPill);
+    }
+    .pill{
+      cursor:pointer;
+      user-select:none;
+      border: 1px solid transparent;
+      color: var(--muted);
+      background: transparent;
+      padding: 7px 11px;
+      border-radius: var(--radiusPill);
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      transition: transform .12s ease, background .12s ease, color .12s ease, border-color .12s ease;
+    }
+    .pill:hover{ transform: translateY(-1px); }
+    .pill:focus-visible{ outline: none; box-shadow: var(--focus); }
+    .pill[aria-pressed="true"]{
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(201,210,220,.14), rgba(201,210,220,.06));
+      border-color: rgba(201,210,220,.22);
+    }
+
+    .search{
+      position: relative;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: var(--radiusPill);
+      padding: 8px 10px;
+      min-width: min(420px, 88vw);
+      flex: 1 1 320px;
+    }
+    .search svg{ width: 16px; height: 16px; opacity:.75; flex:0 0 auto; }
+    .search input{
+      width: 100%;
+      border:0; outline:0;
+      background: transparent;
+      color: var(--ink);
+      font-size: 13.5px;
+    }
+    .search input::placeholder{ color: rgba(168,176,187,.8); }
+
+    .toggles{
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .toggle{
+      display:flex; align-items:center; gap:8px;
+      padding: 8px 10px;
+      border-radius: var(--radiusPill);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      font-size: 12.5px;
+      color: var(--muted);
+      user-select:none;
+    }
+    .toggle input{ accent-color: var(--accent2); }
+
+    .tabs{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      padding: 10px 0 16px;
+      border-top: 1px solid var(--line2);
+    }
+    .tab{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      border-radius: var(--radiusPill);
+      padding: 8px 12px;
+      font-weight: 750;
+      font-size: 12.5px;
+      cursor: pointer;
+      user-select:none;
+    }
+    .tab:hover{ transform: translateY(-1px); }
+    .tab:focus-visible{ outline:none; box-shadow: var(--focus); }
+    .tab[aria-selected="true"]{
+      color: var(--ink);
+      border-color: rgba(185,164,106,.28);
+      background: linear-gradient(180deg, rgba(185,164,106,.14), rgba(185,164,106,.06));
+    }
+
+    main{ margin-top: 16px; }
+
+    .empty{
+      display:none;
+      margin: 18px 0;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      border: 1px dashed rgba(201,210,220,.24);
+      color: var(--muted);
+      background: rgba(255,255,255,.02);
+    }
+    .empty.show{ display:block; }
+
+    /* Books layout */
+    .book{
+      display:none;
+      animation: fadeIn .18s ease-out both;
+      margin-bottom: 22px;
+    }
+    .book.active{ display:block; }
+    @keyframes fadeIn{ from{ opacity:0; transform: translateY(6px);} to{ opacity:1; transform: translateY(0);} }
+
+    .book-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+      margin: 18px 0 10px;
+      flex-wrap: wrap;
+    }
+    .book-head h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.3px;
+    }
+    .book-head .meta{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+
+    .card{
+      grid-column: span 12;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      scroll-margin-top: 140px; /* anchor offsets for sticky header */
+    }
+
+    @media (min-width: 720px){
+      .card{ grid-column: span 6; }
+    }
+    @media (min-width: 1020px){
+      .card{ grid-column: span 4; }
+    }
+
+    details{ padding: 0; }
+    summary{
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 14px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      background: linear-gradient(180deg, rgba(15,21,28,.92), rgba(15,21,28,.75));
+      outline:none;
+    }
+    summary:focus-visible{ box-shadow: var(--focus); }
+    summary::-webkit-details-marker{ display:none; }
+
+    .topline{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .chapterTitle{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width: 0;
+    }
+    .chapterTitle .name{
+      margin:0;
+      font-weight: 850;
+      font-size: 14.5px;
+      letter-spacing:.2px;
+    }
+    .chapterTitle .hint{
+      margin:0;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge{
+      flex: 0 0 auto;
+      font-size: 11.5px;
+      padding: 6px 9px;
+      border-radius: var(--radiusPill);
+      border: 1px solid rgba(185,164,106,.28);
+      background: rgba(185,164,106,.10);
+      color: rgba(240,236,220,.95);
+      letter-spacing:.25px;
+      white-space: nowrap;
+      align-self:flex-start;
+    }
+
+    .body{
+      padding: 12px 14px 14px;
+      background: linear-gradient(180deg, rgba(18,27,36,.72), rgba(18,27,36,.56));
+      border-top: 1px solid rgba(255,255,255,.07);
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .kvs{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.02);
+    }
+    .kv{
+      display:flex;
+      gap:10px;
+      align-items:baseline;
+      min-width: 0;
+    }
+    .kv .k{
+      flex: 0 0 auto;
+      font-size: 12px;
+      letter-spacing:.25px;
+      color: rgba(201,210,220,.9);
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+    .kv .v{
+      min-width:0;
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+    .muted{ color: var(--muted); }
+
+    .summaryText{
+      margin: 0;
+      padding: 10px 12px;
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(600px 220px at 20% 0%, rgba(185,164,106,.10), transparent 55%),
+        rgba(255,255,255,.02);
+      color: rgba(231,234,238,.95);
+      line-height: 1.5;
+      font-size: 13.25px;
+    }
+
+    /* Image frame (chapter + book) */
+    .imgFrame{
+      width: 100%;
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      overflow:hidden;
+      position: relative;
+    }
+    .imgFrame img{
+      width: 100%;
+      height: auto;
+      display:block;
+    }
+    .imgFrame .imgPh{
+      padding: 14px 12px;
+      color: rgba(168,176,187,.9);
+      font-size: 12.8px;
+      line-height: 1.35;
+      background:
+        radial-gradient(600px 240px at 20% 0%, rgba(201,210,220,.08), transparent 55%),
+        radial-gradient(620px 240px at 85% 0%, rgba(185,164,106,.08), transparent 55%),
+        rgba(255,255,255,.02);
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .imgPh b{ color: rgba(231,234,238,.95); }
+    .imgPh svg{ width:18px; height:18px; opacity:.8; flex:0 0 auto; margin-top: 1px; }
+
+    .imgActions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border-radius: var(--radiusPill);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--ink);
+      font-size: 12.5px;
+      font-weight: 760;
+      cursor:pointer;
+      user-select:none;
+      text-decoration:none;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn:focus-visible{ outline:none; box-shadow: var(--focus); }
+    .btn.secondary{ color: var(--muted); }
+    .btn svg{ width:16px; height:16px; opacity:.85; }
+
+    /* Book gallery */
+    .gallery{
+      display:flex;
+      gap:10px;
+      overflow:auto;
+      padding-bottom: 6px;
+      scroll-snap-type: x mandatory;
+    }
+    .gallery::-webkit-scrollbar{ height: 10px; }
+    .gallery::-webkit-scrollbar-thumb{ background: rgba(255,255,255,.08); border-radius: 999px; }
+    .thumb{
+      min-width: 220px;
+      max-width: 320px;
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      overflow:hidden;
+      position: relative;
+    }
+    .thumb img{ width:100%; display:block; }
+    .thumb .cap{
+      position:absolute;
+      inset:auto 10px 10px 10px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(11,16,21,.70);
+      backdrop-filter: blur(10px);
+      font-size: 12.5px;
+      color: rgba(231,234,238,.95);
+    }
+
+    /* Index (Rejstřík) */
+    .indexWrap{
+      display:none;
+      animation: fadeIn .18s ease-out both;
+    }
+    .indexWrap.active{ display:block; }
+
+    .idxHead{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap: wrap;
+      margin: 12px 0 10px;
+    }
+    .idxHead h2{ margin:0; font-size: 18px; letter-spacing:.3px; }
+    .idxHead p{ margin:0; color: var(--muted); font-size: 13px; }
+
+    .idxControls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap: wrap;
+      margin: 10px 0 14px;
+    }
+
+    .chips{
+      display:flex;
+      gap:8px;
+      padding: 6px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: var(--radiusPill);
+      flex-wrap: wrap;
+    }
+    .chip{
+      cursor:pointer;
+      user-select:none;
+      border: 1px solid transparent;
+      color: var(--muted);
+      background: transparent;
+      padding: 7px 11px;
+      border-radius: var(--radiusPill);
+      font-size: 12.5px;
+      font-weight: 750;
+    }
+    .chip[aria-pressed="true"]{
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(201,210,220,.14), rgba(201,210,220,.06));
+      border-color: rgba(201,210,220,.22);
+    }
+
+    .idxGrid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 980px){
+      .idxGrid{ grid-template-columns: 1.1fr .9fr; }
+    }
+
+    .panel{
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelHead{
+      padding: 14px 14px 10px;
+      background: linear-gradient(180deg, rgba(15,21,28,.92), rgba(15,21,28,.75));
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .panelHead .row2{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .panelHead h3{
+      margin:0;
+      font-size: 14px;
+      letter-spacing:.25px;
+      text-transform: uppercase;
+      color: rgba(201,210,220,.95);
+      font-weight: 850;
+    }
+    .count{
+      font-size: 12px;
+      color: var(--muted);
+      padding: 6px 9px;
+      border-radius: var(--radiusPill);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      white-space: nowrap;
+    }
+
+    .list{
+      padding: 10px 12px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .item{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+      cursor:pointer;
+      user-select:none;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+    }
+    .item:hover{
+      transform: translateY(-1px);
+      border-color: rgba(185,164,106,.20);
+      background: rgba(185,164,106,.04);
+    }
+    .item:focus-visible{ outline:none; box-shadow: var(--focus); }
+    .item .left{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width: 0;
+    }
+    .item .name{ font-weight: 820; font-size: 13.5px; margin:0; }
+    .item .sub{ margin:0; font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
+    .pillMini{
+      flex:0 0 auto;
+      padding: 6px 9px;
+      border-radius: var(--radiusPill);
+      border: 1px solid rgba(185,164,106,.22);
+      background: rgba(185,164,106,.08);
+      color: rgba(231,234,238,.92);
+      font-size: 11.5px;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    /* Modal */
+    .modal{
+      position: fixed;
+      inset:0;
+      z-index: 90;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 24px 14px;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(10px);
+    }
+    .modal.show{ display:flex; }
+    .dialog{
+      width: min(920px, 100%);
+      max-height: min(86vh, 820px);
+      overflow:auto;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(15,21,28,.94), rgba(15,21,28,.78));
+      box-shadow: 0 30px 100px rgba(0,0,0,.72);
+    }
+    .dialogTop{
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 14px 14px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(15,21,28,.96), rgba(15,21,28,.78));
+      backdrop-filter: blur(10px);
+    }
+    .dialogTitle{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width: 0;
+    }
+    .dialogTitle h3{
+      margin:0;
+      font-weight: 900;
+      letter-spacing: .2px;
+      font-size: 16px;
+    }
+    .dialogTitle p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+    .xbtn{
+      padding: 8px 10px;
+      border-radius: var(--radiusPill);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: var(--ink);
+      cursor:pointer;
+      font-weight: 850;
+    }
+    .xbtn:hover{ transform: translateY(-1px); }
+    .xbtn:focus-visible{ outline:none; box-shadow: var(--focus); }
+
+    .dialogBody{
+      padding: 12px 14px 14px;
+    }
+    .dialogGrid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 920px){
+      .dialogGrid{ grid-template-columns: 1.1fr .9fr; }
+    }
+
+    .occ{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .occ a{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      justify-content:space-between;
+      text-decoration:none;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+    }
+    .occ a:hover{
+      transform: translateY(-1px);
+      border-color: rgba(201,210,220,.18);
+      background: rgba(201,210,220,.04);
+    }
+    .occ .t{ font-weight: 820; font-size: 13px; margin:0; }
+    .occ .s{ margin:0; color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
+    .occ .tag{ font-size: 11.5px; padding: 6px 9px; border-radius: var(--radiusPill);
+               border: 1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.02); color: var(--muted); white-space: nowrap; }
+
+    .footer-note{
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.45;
+      opacity: .95;
+    }
+
+    /* Hide blocks toggles */
+    .hide-people .people{ display:none !important; }
+    .hide-places .places{ display:none !important; }
+    .hide-rulers .rulers{ display:none !important; }
+  </style>
+</head>
+
+<body>
+  <div class="fog" aria-hidden="true"></div>
+
+  <header>
+    <div class="wrap">
+      <div class="top">
+        <div class="brand">
+          <div class="sigil" aria-hidden="true" title="Stylizovaný znak (bez konkrétního loga)">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 2.5l3.2 2.1 3.7-.6-.9 3.6 2.4 2.9-3.7.9-.9 3.7-3.6-2.0-3.6 2-1-3.7-3.7-.9 2.4-2.9-.9-3.6 3.7.6L12 2.5Z"
+                    stroke="currentColor" stroke-width="1.2" opacity=".9"/>
+              <path d="M8.2 10.3c1.6-.9 2.7-1.0 3.8-.2 1.1-.8 2.2-.7 3.8.2"
+                    stroke="currentColor" stroke-width="1.2" opacity=".85"/>
+              <path d="M9.2 13.8c1.2.7 2.1 1 2.8 1s1.6-.3 2.8-1"
+                    stroke="currentColor" stroke-width="1.2" opacity=".85"/>
+            </svg>
+          </div>
+          <div class="title">
+            <h1 id="siteTitle">Zaklínač – zápisky z knih</h1>
+            <p id="siteSubtitle">Knihy • kapitoly • rejstřík postav a míst</p>
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="pillbar" role="group" aria-label="Výběr knihy">
+            <button class="pill" id="btnAll" aria-pressed="true" type="button">Vše</button>
+            <button class="pill" id="btnBook1" aria-pressed="false" type="button">Kniha 1</button>
+            <button class="pill" id="btnBook2" aria-pressed="false" type="button">Kniha 2</button>
+          </div>
+
+          <label class="search" aria-label="Hledat">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <input id="q" type="search" placeholder="Hledej: postava, město, kapitola…" autocomplete="off" />
+          </label>
+
+          <div class="toggles" aria-label="Zobrazení detailů">
+            <label class="toggle"><input id="tPeople" type="checkbox" checked /> Postavy</label>
+            <label class="toggle"><input id="tPlaces" type="checkbox" checked /> Místa</label>
+            <label class="toggle"><input id="tRulers" type="checkbox" checked /> Panovníci</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Sekce">
+        <button class="tab" id="tabBooks" role="tab" aria-selected="true" aria-controls="panelBooks" type="button">Knihy</button>
+        <button class="tab" id="tabIndex" role="tab" aria-selected="false" aria-controls="panelIndex" type="button">Rejstřík</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap" id="root">
+    <main>
+      <div class="empty" id="empty">Nic jsem nenašel. Zkus ubrat filtr nebo napsat kratší dotaz.</div>
+
+      <!-- BOOKS -->
+      <section id="panelBooks" role="tabpanel" aria-labelledby="tabBooks">
+        <div id="booksMount"></div>
+      </section>
+
+      <!-- INDEX -->
+      <section class="indexWrap" id="panelIndex" role="tabpanel" aria-labelledby="tabIndex">
+        <div class="idxHead">
+          <div>
+            <h2>Rejstřík</h2>
+            <p>Osoby, místa a kapitoly — klikni pro detail a výskyty.</p>
+          </div>
+        </div>
+
+        <div class="idxControls">
+          <div class="chips" role="group" aria-label="Filtr rejstříku">
+            <button class="chip" id="chipAll" aria-pressed="true" type="button">Vše</button>
+            <button class="chip" id="chipPeople" aria-pressed="false" type="button">Osoby</button>
+            <button class="chip" id="chipPlaces" aria-pressed="false" type="button">Místa</button>
+            <button class="chip" id="chipChapters" aria-pressed="false" type="button">Kapitoly</button>
+          </div>
+        </div>
+
+        <div class="idxGrid">
+          <div class="panel">
+            <div class="panelHead">
+              <div class="row2">
+                <h3>Výsledky</h3>
+                <span class="count" id="countResults">0</span>
+              </div>
+            </div>
+            <div class="list" id="indexList"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panelHead">
+              <div class="row2">
+                <h3>Tipy</h3>
+                <span class="count">rychlovky</span>
+              </div>
+            </div>
+            <div class="list">
+              <div class="item" tabindex="0" id="tip1">
+                <div class="left">
+                  <p class="name">Jak doplnit info k osobě/místu?</p>
+                  <p class="sub">Do data/books.json → entities.people / entities.places</p>
+                </div>
+                <span class="pillMini">JSON</span>
+              </div>
+              <div class="item" tabindex="0" id="tip2">
+                <div class="left">
+                  <p class="name">Jak přidat obrázky?</p>
+                  <p class="sub">Nahraj do assets/img/... a do JSON dej cestu</p>
+                </div>
+                <span class="pillMini">assets</span>
+              </div>
+              <div class="item" tabindex="0" id="tip3">
+                <div class="left">
+                  <p class="name">Proklik na kapitolu</p>
+                  <p class="sub">V detailu položky klikni na výskyt → skočí to na kartu a rozbalí</p>
+                </div>
+                <span class="pillMini">jump</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="footer-note">
+          Pozn.: Rejstřík se skládá automaticky z kapitol (postavy + místa) a můžeš ho obohatit v JSON (popisy/obrázky/aliasy).
+        </p>
+      </section>
+
+      <p class="footer-note" id="footerNote">
+        Tip, vole: obrázky dávej ideálně jako WebP a s rozumnou velikostí. Loading je lazy automaticky.
+      </p>
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="dialogTop">
+        <div class="dialogTitle">
+          <h3 id="modalTitle">Detail</h3>
+          <p id="modalSub">—</p>
+        </div>
+        <button class="xbtn" id="modalClose" type="button" aria-label="Zavřít">✕</button>
+      </div>
+
+      <div class="dialogBody">
+        <div class="dialogGrid">
+          <div>
+            <div class="imgFrame" id="modalImageFrame"></div>
+            <div class="imgActions">
+              <button class="btn secondary" id="openImageBtn" type="button" style="display:none;">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M9 3h12v12" stroke="currentColor" stroke-width="1.6"/>
+                </svg>
+                Otevřít obrázek
+              </button>
+              <button class="btn secondary" id="copyLinkBtn" type="button" style="display:none;">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 9h10v10H9V9Z" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.6"/>
+                </svg>
+                Zkopírovat odkaz
+              </button>
+            </div>
+            <p class="summaryText" id="modalDesc" style="margin-top:10px;">—</p>
+          </div>
+
+          <div>
+            <div class="kvs" style="margin-bottom:12px;">
+              <div class="kv"><div class="k">Typ</div><div class="v" id="modalType">—</div></div>
+              <div class="kv"><div class="k">Alias</div><div class="v muted" id="modalAliases">—</div></div>
+            </div>
+
+            <div class="kvs">
+              <div class="kv"><div class="k">Výskyty</div><div class="v muted" id="modalOccCount">—</div></div>
+              <div class="occ" id="modalOcc"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    // ------------------
+    // Helpers
+    // ------------------
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? '')
+      .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+      .replaceAll('"','&quot;').replaceAll("'","&#039;");
+
+    const slugify = (s) => String(s ?? '')
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-z0-9]+/g,'-')
+      .replace(/(^-|-$)/g,'')
+      .slice(0, 80) || 'x';
+
+    const uniq = (arr) => [...new Set(arr.filter(Boolean))];
+
+    // ------------------
+    // DOM refs
+    // ------------------
+    const root = $('root');
+    const empty = $('empty');
+    const booksMount = $('booksMount');
+
+    const btnAll = $('btnAll');
+    const btnBook1 = $('btnBook1');
+    const btnBook2 = $('btnBook2');
+
+    const tabBooks = $('tabBooks');
+    const tabIndex = $('tabIndex');
+    const panelBooks = $('panelBooks');
+    const panelIndex = $('panelIndex');
+
+    const q = $('q');
+    const tPeople = $('tPeople');
+    const tPlaces = $('tPlaces');
+    const tRulers = $('tRulers');
+
+    const chipAll = $('chipAll');
+    const chipPeople = $('chipPeople');
+    const chipPlaces = $('chipPlaces');
+    const chipChapters = $('chipChapters');
+
+    const indexList = $('indexList');
+    const countResults = $('countResults');
+
+    // Modal
+    const modal = $('modal');
+    const modalClose = $('modalClose');
+    const modalTitle = $('modalTitle');
+    const modalSub = $('modalSub');
+    const modalImageFrame = $('modalImageFrame');
+    const modalDesc = $('modalDesc');
+    const modalType = $('modalType');
+    const modalAliases = $('modalAliases');
+    const modalOccCount = $('modalOccCount');
+    const modalOcc = $('modalOcc');
+    const openImageBtn = $('openImageBtn');
+    const copyLinkBtn = $('copyLinkBtn');
+
+    // ------------------
+    // State
+    // ------------------
+    let data = null;
+    let activeBook = 'all';     // 'all' | 'first' | 'second'
+    let activeTab = 'books';    // 'books' | 'index'
+    let activeIndexType = 'all';// 'all' | 'person' | 'place' | 'chapter'
+
+    // Derived
+    let bookIds = [];
+    let chapterById = new Map();  // chapterId -> { book, chapter, anchorId }
+    let occByPerson = new Map();  // personKey -> occurrences[]
+    let occByPlace = new Map();   // placeKey -> occurrences[]
+    let indexItems = [];          // all items for index list
+    let entityPeople = new Map(); // key -> { name, desc, image, aliases[] }
+    let entityPlaces = new Map(); // key -> { name, desc, image, aliases[], ruler? }
+    let entityChapters = new Map();// key -> { name, desc, image, aliases[] } (optional enrich)
+
+    // ------------------
+    // Rendering blocks
+    // ------------------
+    function setPressed(activeBtn){
+      [btnAll, btnBook1, btnBook2].forEach(b => b.setAttribute('aria-pressed', String(b === activeBtn)));
+    }
+
+    function setChipPressed(activeChip){
+      [chipAll, chipPeople, chipPlaces, chipChapters].forEach(c => c.setAttribute('aria-pressed', String(c === activeChip)));
+    }
+
+    function setTab(tab){
+      activeTab = tab;
+
+      tabBooks.setAttribute('aria-selected', String(tab === 'books'));
+      tabIndex.setAttribute('aria-selected', String(tab === 'index'));
+
+      panelBooks.style.display = (tab === 'books') ? '' : 'none';
+      panelIndex.classList.toggle('active', tab === 'index');
+
+      applyVisibility();
+      if(tab === 'index') renderIndexList();
+    }
+
+    function imgFrameHtml(src, alt, placeholderLabel){
+      if(src){
+        return `
+          <div class="imgFrame">
+            <img src="${esc(src)}" alt="${esc(alt || '')}" loading="lazy">
+          </div>
+        `;
+      }
+      return `
+        <div class="imgFrame">
+          <div class="imgPh">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M8 14l2-2 3 3 2-2 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 10.2h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <b>${esc(placeholderLabel || 'Obrázek')}</b><br>
+              Sem přijde obrázek z JSON (cesta do <span class="muted">assets/img/...</span>).
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function chapterTags(book, ch){
+      const a = [];
+      (ch.tags || []).forEach(x => a.push(x));
+      (ch.people || []).forEach(x => a.push(x));
+      (ch.places || []).forEach(p => { a.push(p.name); if(p.ruler) a.push(p.ruler); });
+      a.push(ch.title, book.title, book.id);
+      return a.join(' ').toLowerCase();
+    }
+
+    function buildAnchorId(book, ch){
+      // stable-ish id for anchors/links
+      return `ch-${esc(book.id)}-${esc(ch.id || slugify(ch.title))}`;
+    }
+
+    function renderBooks(){
+      if(!data) return;
+
+      $('siteTitle').textContent = data.site?.title || 'Zaklínač – zápisky z knih';
+      $('siteSubtitle').textContent = data.site?.subtitle || 'Knihy • kapitoly • rejstřík postav a míst';
+      document.title = data.site?.title || document.title;
+
+      booksMount.innerHTML = (data.books || []).map((book, bi) => {
+        const coverHtml = imgFrameHtml(book.cover, book.title, 'Cover knihy');
+
+        const gallery = Array.isArray(book.images) ? book.images : [];
+        const galleryHtml = (gallery.length > 0)
+          ? `
+            <div class="gallery" aria-label="Galerie knihy">
+              ${gallery.map((g, i) => `
+                <div class="thumb" tabindex="0" data-modal-image="${esc(g.src || g)}" data-modal-caption="${esc(g.caption || book.title)}">
+                  <img src="${esc(g.src || g)}" alt="${esc(g.caption || book.title)}" loading="lazy">
+                  ${g.caption ? `<div class="cap">${esc(g.caption)}</div>` : ``}
+                </div>
+              `).join('')}
+            </div>
+          `
+          : imgFrameHtml(null, '', 'Galerie knihy (může být více obrázků)');
+
+        const chapters = Array.isArray(book.chapters) ? book.chapters : [];
+        const chaptersHtml = chapters.map((ch) => {
+          const chId = ch.id || slugify(ch.title);
+          const anchorId = `ch-${book.id}-${chId}`;
+          const people = (ch.people || []);
+          const places = (ch.places || []);
+
+          const peopleLabel = people.length ? `Postavy: ${people.join(', ')}` : '';
+          const placesLabel = places.length ? `Místo: ${places.map(p=>p.name).join(', ')}` : '';
+          const rulersLabel = places.length ? `Panovník: ${places.map(p=>p.ruler || 'neuveden').join(', ')}` : 'Panovník: neuveden';
+
+          const imgHtml = imgFrameHtml(ch.image, ch.title, 'Obrázek kapitoly');
+
+          return `
+            <article class="card" id="${esc(anchorId)}"
+              data-bookid="${esc(book.id)}"
+              data-tags="${esc(chapterTags(book, ch))}"
+              data-chapterid="${esc(chId)}">
+              <details>
+                <summary>
+                  <div class="topline">
+                    <div class="chapterTitle">
+                      <p class="name">${esc(ch.title)}</p>
+                      <p class="hint people">${esc(peopleLabel)}</p>
+                    </div>
+                    <span class="badge">${esc(ch.typeBadge || 'povídka')}</span>
+                  </div>
+                  <p class="hint places">${esc(placesLabel)}</p>
+                  <p class="hint rulers">${esc(rulersLabel)}</p>
+                </summary>
+
+                <div class="body">
+                  <div class="row">
+                    <div class="kvs people">
+                      <div class="kv"><div class="k">Postavy</div><div class="v">${people.length ? esc(people.join(', ')) : '<span class="muted">—</span>'}</div></div>
+                    </div>
+
+                    <div class="kvs places">
+                      <div class="kv"><div class="k">Místa</div><div class="v">${places.length ? esc(places.map(p => p.name).join(', ')) : '<span class="muted">—</span>'}</div></div>
+                    </div>
+
+                    <div class="kvs rulers">
+                      <div class="kv"><div class="k">Panovníci</div><div class="v">${places.length ? esc(places.map(p => p.ruler || 'neuveden').join(', ')) : '<span class="muted">—</span>'}</div></div>
+                    </div>
+                  </div>
+
+                  <div class="imgFrame" data-image-slot="${esc(ch.image || '')}">
+                    ${imgHtml}
+                  </div>
+
+                  ${ch.image ? `
+                    <div class="imgActions">
+                      <button class="btn secondary" type="button" data-open-image="${esc(ch.image)}" data-caption="${esc(ch.title)}">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.6"/>
+                          <path d="M9 3h12v12" stroke="currentColor" stroke-width="1.6"/>
+                        </svg>
+                        Otevřít obrázek
+                      </button>
+                    </div>
+                  `: ``}
+
+                  <p class="summaryText">${esc(ch.summary || '')}</p>
+
+                  ${(ch.notes && String(ch.notes).trim()) ? `
+                    <p class="summaryText" style="margin-top:10px; border-color: rgba(201,210,220,.12); background: rgba(201,210,220,.03);">
+                      ${esc(ch.notes)}
+                    </p>
+                  ` : ``}
+                </div>
+              </details>
+            </article>
+          `;
+        }).join('');
+
+        return `
+          <section class="book active" data-book="${esc(book.id)}" aria-label="${esc(book.title)}">
+            <div class="book-head">
+              <div>
+                <h2>${esc(book.title)}</h2>
+                <p class="meta">${esc(book.subtitle || 'Klikni na kartu → rozbal detail')}</p>
+              </div>
+              <p class="meta">${esc(book.year ? `Rok: ${book.year}` : '')}</p>
+            </div>
+
+            ${coverHtml}
+
+            <div style="margin: 10px 0 14px;">
+              ${galleryHtml}
+            </div>
+
+            <div class="grid">${chaptersHtml}</div>
+          </section>
+        `;
+      }).join('');
+
+      // gallery thumbs open image modal
+      booksMount.querySelectorAll('[data-modal-image]').forEach(el => {
+        el.addEventListener('click', () => showImageOnly(el.getAttribute('data-modal-image'), el.getAttribute('data-modal-caption')));
+        el.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }});
+      });
+
+      // chapter image open buttons
+      booksMount.querySelectorAll('[data-open-image]').forEach(btn => {
+        btn.addEventListener('click', () => showImageOnly(btn.getAttribute('data-open-image'), btn.getAttribute('data-caption')));
+      });
+    }
+
+    // ------------------
+    // Index building (auto + enrich)
+    // ------------------
+    function addOcc(map, key, occ){
+      if(!map.has(key)) map.set(key, []);
+      map.get(key).push(occ);
+    }
+
+    function normalizeKey(name){
+      return slugify(name);
+    }
+
+    function getEntity(map, key, fallbackName){
+      const e = map.get(key);
+      return e || { name: fallbackName || key, desc: '', image: '', aliases: [] };
+    }
+
+    function buildIndexData(){
+      chapterById = new Map();
+      occByPerson = new Map();
+      occByPlace = new Map();
+      indexItems = [];
+
+      entityPeople = new Map();
+      entityPlaces = new Map();
+      entityChapters = new Map();
+
+      // load enrich entities (optional)
+      const ents = data.entities || {};
+      (ents.people || []).forEach(p => {
+        const key = normalizeKey(p.key || p.name);
+        entityPeople.set(key, {
+          key,
+          name: p.name,
+          desc: p.desc || '',
+          image: p.image || '',
+          aliases: Array.isArray(p.aliases) ? p.aliases : []
+        });
+      });
+      (ents.places || []).forEach(p => {
+        const key = normalizeKey(p.key || p.name);
+        entityPlaces.set(key, {
+          key,
+          name: p.name,
+          ruler: p.ruler || '',
+          desc: p.desc || '',
+          image: p.image || '',
+          aliases: Array.isArray(p.aliases) ? p.aliases : []
+        });
+      });
+      (ents.chapters || []).forEach(c => {
+        const key = normalizeKey(c.key || c.name);
+        entityChapters.set(key, {
+          key,
+          name: c.name,
+          desc: c.desc || '',
+          image: c.image || '',
+          aliases: Array.isArray(c.aliases) ? c.aliases : []
+        });
+      });
+
+      const books = Array.isArray(data.books) ? data.books : [];
+      bookIds = books.map(b => b.id);
+
+      books.forEach(book => {
+        const chapters = Array.isArray(book.chapters) ? book.chapters : [];
+        chapters.forEach(ch => {
+          const chId = ch.id || slugify(ch.title);
+          const anchorId = `ch-${book.id}-${chId}`;
+          const chapterKey = normalizeKey(`${book.id}-${chId}`);
+
+          const chapterRec = { book, chapter: {...ch, id: chId}, anchorId, chapterKey };
+          chapterById.set(chapterKey, chapterRec);
+
+          // chapter occurrences for its own entry
+          // occurrences are used by entity modal "výskyty"
+          // for chapter itself we'll store one item pointing to itself
+          // (makes modal useful)
+          // We'll also allow chapter detail from index
+          // (desc/image can be enriched via entities.chapters)
+          // Example occurrence:
+          const occ = {
+            chapterKey,
+            anchorId,
+            chapterTitle: ch.title,
+            bookTitle: book.title,
+            bookId: book.id
+          };
+
+          // People occurrences
+          (ch.people || []).forEach(personName => {
+            const pKey = normalizeKey(personName);
+            addOcc(occByPerson, pKey, occ);
+            // keep minimal entity if not exists
+            if(!entityPeople.has(pKey)) entityPeople.set(pKey, { key: pKey, name: personName, desc: '', image: '', aliases: [] });
+          });
+
+          // Places occurrences
+          (ch.places || []).forEach(place => {
+            const placeName = place?.name || '';
+            if(!placeName) return;
+            const plKey = normalizeKey(placeName);
+            addOcc(occByPlace, plKey, occ);
+
+            if(!entityPlaces.has(plKey)){
+              entityPlaces.set(plKey, {
+                key: plKey,
+                name: placeName,
+                ruler: place?.ruler || '',
+                desc: '',
+                image: '',
+                aliases: []
+              });
+            } else {
+              // if entity exists but missing ruler, enrich from chapter data
+              const ex = entityPlaces.get(plKey);
+              if(!ex.ruler && place?.ruler) ex.ruler = place.ruler;
+            }
+          });
+        });
+      });
+
+      // build index items list
+      const peopleItems = [...entityPeople.values()].map(p => ({
+        type: 'person',
+        key: p.key,
+        name: p.name,
+        sub: (p.desc && p.desc.trim()) ? p.desc : `Výskyty: ${ (occByPerson.get(p.key) || []).length }`,
+        count: (occByPerson.get(p.key) || []).length
+      }));
+
+      const placeItems = [...entityPlaces.values()].map(p => ({
+        type: 'place',
+        key: p.key,
+        name: p.name,
+        sub: p.ruler ? `Vládce: ${p.ruler}` : ((p.desc && p.desc.trim()) ? p.desc : `Výskyty: ${(occByPlace.get(p.key) || []).length}`),
+        count: (occByPlace.get(p.key) || []).length
+      }));
+
+      // chapters index: one entry per chapter
+      const chapterItems = [];
+      const books = Array.isArray(data.books) ? data.books : [];
+      books.forEach(book => {
+        (book.chapters || []).forEach(ch => {
+          const chId = ch.id || slugify(ch.title);
+          const chKey = normalizeKey(`${book.id}-${chId}`);
+          const enriched = entityChapters.get(normalizeKey(ch.title)) || entityChapters.get(chKey);
+          chapterItems.push({
+            type: 'chapter',
+            key: chKey,
+            name: ch.title,
+            sub: book.title,
+            count: 1,
+            _bookId: book.id,
+            _anchorId: `ch-${book.id}-${chId}`,
+            _enriched: enriched || null
+          });
+        });
+      });
+
+      // Sort: primary by type group, then count desc, then name
+      const byName = (a,b)=> a.name.localeCompare(b.name, 'cs', {sensitivity:'base'});
+      peopleItems.sort((a,b)=> (b.count-a.count) || byName(a,b));
+      placeItems.sort((a,b)=> (b.count-a.count) || byName(a,b));
+      chapterItems.sort(byName);
+
+      indexItems = [...peopleItems, ...placeItems, ...chapterItems];
+    }
+
+    // ------------------
+    // Index rendering + modal
+    // ------------------
+    function getItemSearchHay(item){
+      const names = [item.name];
+      if(item.type === 'person'){
+        const e = entityPeople.get(item.key);
+        if(e?.aliases?.length) names.push(...e.aliases);
+        if(e?.desc) names.push(e.desc);
+      }
+      if(item.type === 'place'){
+        const e = entityPlaces.get(item.key);
+        if(e?.aliases?.length) names.push(...e.aliases);
+        if(e?.desc) names.push(e.desc);
+        if(e?.ruler) names.push(e.ruler);
+      }
+      if(item.type === 'chapter'){
+        const rec = chapterById.get(item.key);
+        if(rec?.book?.title) names.push(rec.book.title);
+        if(rec?.chapter?.summary) names.push(rec.chapter.summary);
+        const e = item._enriched;
+        if(e?.desc) names.push(e.desc);
+        if(e?.aliases?.length) names.push(...e.aliases);
+      }
+      return names.join(' ').toLowerCase();
+    }
+
+    function renderIndexList(){
+      if(!data) return;
+
+      const needle = (q.value || '').trim().toLowerCase();
+      const filtered = indexItems.filter(item => {
+        const typeOk = (activeIndexType === 'all') || item.type === activeIndexType;
+        if(!typeOk) return false;
+        if(!needle) return true;
+        return getItemSearchHay(item).includes(needle);
+      });
+
+      countResults.textContent = `${filtered.length}`;
+
+      indexList.innerHTML = filtered.map(item => {
+        const typeLabel = item.type === 'person' ? 'osoba' : item.type === 'place' ? 'místo' : 'kapitola';
+        const badge = item.type === 'chapter' ? `kapitola` : `${typeLabel} • ${item.count}`;
+        return `
+          <div class="item" tabindex="0" data-idx-type="${esc(item.type)}" data-idx-key="${esc(item.key)}">
+            <div class="left">
+              <p class="name">${esc(item.name)}</p>
+              <p class="sub">${esc(item.sub || '')}</p>
+            </div>
+            <span class="pillMini">${esc(badge)}</span>
+          </div>
+        `;
+      }).join('');
+
+      indexList.querySelectorAll('.item').forEach(el => {
+        el.addEventListener('click', () => openIndexItem(el.getAttribute('data-idx-type'), el.getAttribute('data-idx-key')));
+        el.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }});
+      });
+
+      applyVisibility(); // ensures empty state correctness
+    }
+
+    function showModal(){
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function hideModal(){
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function showImageOnly(src, caption){
+      // re-use modal as simple image viewer
+      modalTitle.textContent = caption || 'Obrázek';
+      modalSub.textContent = 'Náhled';
+      modalType.textContent = 'obrázek';
+      modalAliases.textContent = '—';
+      modalOccCount.textContent = '—';
+      modalOcc.innerHTML = '';
+
+      modalDesc.textContent = caption || '';
+      modalImageFrame.innerHTML = imgFrameHtml(src, caption || 'obrázek', 'Obrázek');
+
+      openImageBtn.style.display = src ? '' : 'none';
+      copyLinkBtn.style.display = src ? '' : 'none';
+
+      openImageBtn.onclick = () => { if(src) window.open(src, '_blank', 'noopener'); };
+      copyLinkBtn.onclick = async () => {
+        try{
+          await navigator.clipboard.writeText(src);
+          copyLinkBtn.textContent = 'Zkopírováno ✓';
+          setTimeout(()=> copyLinkBtn.textContent = 'Zkopírovat odkaz', 1100);
+        }catch(e){}
+      };
+
+      showModal();
+    }
+
+    function openIndexItem(type, key){
+      // compose entity data
+      if(type === 'person'){
+        const e = getEntity(entityPeople, key, key);
+        const occ = occByPerson.get(key) || [];
+        openEntityModal('Osoba', e, occ);
+        return;
+      }
+      if(type === 'place'){
+        const e = getEntity(entityPlaces, key, key);
+        const occ = occByPlace.get(key) || [];
+        const sub = e.ruler ? `Vládce: ${e.ruler}` : '—';
+        openEntityModal('Místo', e, occ, sub);
+        return;
+      }
+      if(type === 'chapter'){
+        const rec = chapterById.get(key);
+        if(!rec){
+          openEntityModal('Kapitola', { name: key, desc: '', image: '', aliases: [] }, [], '—');
+          return;
+        }
+        const base = {
+          name: rec.chapter.title,
+          desc: rec.chapter.summary || '',
+          image: rec.chapter.image || '',
+          aliases: []
+        };
+
+        // allow enrich chapters by title-key match
+        const e1 = entityChapters.get(normalizeKey(rec.chapter.title));
+        const merged = {
+          name: base.name,
+          desc: e1?.desc || base.desc,
+          image: e1?.image || base.image,
+          aliases: e1?.aliases || []
+        };
+
+        const occ = [{
+          chapterKey: key,
+          anchorId: rec.anchorId,
+          chapterTitle: rec.chapter.title,
+          bookTitle: rec.book.title,
+          bookId: rec.book.id
+        }];
+
+        openEntityModal('Kapitola', merged, occ, rec.book.title);
+      }
+    }
+
+    function openEntityModal(label, entity, occurrences, subtitleOverride){
+      modalTitle.textContent = entity.name || 'Detail';
+      modalSub.textContent = subtitleOverride || label;
+      modalType.textContent = label;
+      modalAliases.textContent = (entity.aliases && entity.aliases.length) ? entity.aliases.join(', ') : '—';
+      modalDesc.textContent = (entity.desc && String(entity.desc).trim()) ? entity.desc : '—';
+
+      // image
+      const src = entity.image || '';
+      modalImageFrame.innerHTML = imgFrameHtml(src, entity.name, `${label} – obrázek`);
+
+      openImageBtn.style.display = src ? '' : 'none';
+      copyLinkBtn.style.display = src ? '' : 'none';
+
+      openImageBtn.onclick = () => { if(src) window.open(src, '_blank', 'noopener'); };
+      copyLinkBtn.onclick = async () => {
+        try{
+          const url = location.href.split('#')[0] + '#idx-' + slugify(label) + '-' + slugify(entity.name);
+          await navigator.clipboard.writeText(url);
+          copyLinkBtn.textContent = 'Zkopírováno ✓';
+          setTimeout(()=> copyLinkBtn.textContent = 'Zkopírovat odkaz', 1100);
+        }catch(e){}
+      };
+
+      // occurrences list
+      modalOccCount.textContent = `${occurrences.length}`;
+      modalOcc.innerHTML = (occurrences.length ? occurrences : []).slice(0, 30).map(o => {
+        return `
+          <a href="#${esc(o.anchorId)}" data-jump="${esc(o.anchorId)}" data-bookid="${esc(o.bookId)}" title="Přejít na kapitolu">
+            <div style="min-width:0;">
+              <p class="t">${esc(o.chapterTitle)}</p>
+              <p class="s">${esc(o.bookTitle)}</p>
+            </div>
+            <span class="tag">přejít</span>
+          </a>
+        `;
+      }).join('') || `<div class="muted" style="font-size:13px;">—</div>`;
+
+      modalOcc.querySelectorAll('[data-jump]').forEach(a => {
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          const anchorId = a.getAttribute('data-jump');
+          const bookId = a.getAttribute('data-bookid');
+          hideModal();
+          jumpToChapter(anchorId, bookId);
+        });
+      });
+
+      showModal();
+    }
+
+    function jumpToChapter(anchorId, bookId){
+      // go to books tab
+      setTab('books');
+
+      // if book filtering is not all, ensure the relevant book is visible
+      // If activeBook is first/second but doesn't match, switch to all.
+      if(activeBook !== 'all'){
+        const id1 = bookIds[0] || null;
+        const id2 = bookIds[1] || null;
+        const ok = (activeBook === 'first' && bookId === id1) || (activeBook === 'second' && bookId === id2);
+        if(!ok){
+          activeBook = 'all';
+          setPressed(btnAll);
+        }
+      }
+
+      applyVisibility();
+
+      // scroll and open <details>
+      const el = document.getElementById(anchorId);
+      if(!el) return;
+
+      history.replaceState(null, '', '#' + anchorId);
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      const det = el.querySelector('details');
+      if(det) det.open = true;
+    }
+
+    // ------------------
+    // Visibility / filtering
+    // ------------------
+    function applyVisibility(){
+      if(!data) return;
+
+      // detail toggles
+      root.classList.toggle('hide-people', !tPeople.checked);
+      root.classList.toggle('hide-places', !tPlaces.checked);
+      root.classList.toggle('hide-rulers', !tRulers.checked);
+
+      const needle = (q.value || '').trim().toLowerCase();
+
+      // if index tab active: empty based on index results
+      if(activeTab === 'index'){
+        const typeFiltered = indexItems.filter(it => (activeIndexType === 'all') || it.type === activeIndexType);
+        const visible = typeFiltered.filter(it => !needle || getItemSearchHay(it).includes(needle));
+        empty.classList.toggle('show', visible.length === 0);
+        return;
+      }
+
+      // books tab filtering
+      let matches = 0;
+
+      const sections = [...booksMount.querySelectorAll('.book')];
+      const id1 = bookIds[0] || null;
+      const id2 = bookIds[1] || null;
+
+      sections.forEach(sec => {
+        const id = sec.getAttribute('data-book');
+        const showBook =
+          activeBook === 'all' ||
+          (activeBook === 'first' && id === id1) ||
+          (activeBook === 'second' && id === id2);
+
+        sec.classList.toggle('active', showBook);
+        sec.style.display = showBook ? '' : 'none';
+
+        if(!showBook) return;
+
+        // filter cards in this section
+        sec.querySelectorAll('.card').forEach(card => {
+          const hay = (card.getAttribute('data-tags') || '').toLowerCase();
+          const ok = !needle || hay.includes(needle);
+          card.style.display = ok ? '' : 'none';
+          if(ok) matches++;
+        });
+      });
+
+      empty.classList.toggle('show', matches === 0);
+    }
+
+    // ------------------
+    // Event wiring
+    // ------------------
+    btnAll.addEventListener('click', () => { activeBook='all'; setPressed(btnAll); applyVisibility(); });
+    btnBook1.addEventListener('click', () => { activeBook='first'; setPressed(btnBook1); applyVisibility(); });
+    btnBook2.addEventListener('click', () => { activeBook='second'; setPressed(btnBook2); applyVisibility(); });
+
+    tabBooks.addEventListener('click', () => setTab('books'));
+    tabIndex.addEventListener('click', () => setTab('index'));
+
+    chipAll.addEventListener('click', () => { activeIndexType='all'; setChipPressed(chipAll); renderIndexList(); });
+    chipPeople.addEventListener('click', () => { activeIndexType='person'; setChipPressed(chipPeople); renderIndexList(); });
+    chipPlaces.addEventListener('click', () => { activeIndexType='place'; setChipPressed(chipPlaces); renderIndexList(); });
+    chipChapters.addEventListener('click', () => { activeIndexType='chapter'; setChipPressed(chipChapters); renderIndexList(); });
+
+    [tPeople, tPlaces, tRulers].forEach(t => t.addEventListener('change', applyVisibility));
+    q.addEventListener('input', () => {
+      if(activeTab === 'index') renderIndexList();
+      else applyVisibility();
+    });
+
+    // Modal closing
+    modalClose.addEventListener('click', hideModal);
+    modal.addEventListener('click', (e) => { if(e.target === modal) hideModal(); });
+    window.addEventListener('keydown', (e) => { if(e.key === 'Escape' && modal.classList.contains('show')) hideModal(); });
+
+    // Tips open (show example modal)
+    $('tip1').addEventListener('click', () => {
+      openEntityModal('Tip', {
+        name: 'Obohacení osob/míst',
+        desc: 'Do data/books.json přidej sekci "entities": people/places (popis, obrázek, aliasy). Rejstřík to pak ukáže v detailu.',
+        image: '',
+        aliases: ['entities.people', 'entities.places']
+      }, [], 'Jak na to');
+    });
+    $('tip2').addEventListener('click', () => {
+      openEntityModal('Tip', {
+        name: 'Obrázky',
+        desc: 'Nahraj obrázky do assets/img/... a do JSON dej cestu (např. assets/img/chapters/brokilon.webp).',
+        image: '',
+        aliases: ['chapter.image', 'book.cover', 'book.images[]']
+      }, [], 'Jak na to');
+    });
+    $('tip3').addEventListener('click', () => {
+      openEntityModal('Tip', {
+        name: 'Proklik na kapitolu',
+        desc: 'V detailu položky jsou výskyty. Klikneš → přepne to na "Knihy", skočí na kapitolu a otevře ji.',
+        image: '',
+        aliases: ['jumpToChapter()']
+      }, [], 'Jak to funguje');
+    });
+
+    // ------------------
+    // Init: load JSON
+    // ------------------
+    fetch('data/books.json', { cache: 'no-store' })
+      .then(r => {
+        if(!r.ok) throw new Error('Nepodařilo se načíst data/books.json (zkontroluj cestu a název souboru).');
+        return r.json();
+      })
+      .then(j => {
+        data = j;
+        renderBooks();
+        buildIndexData();
+        // Update book buttons names if present
+        const books = data.books || [];
+        btnBook1.textContent = books[0]?.shortTitle || books[0]?.title || 'Kniha 1';
+        btnBook2.textContent = books[1]?.shortTitle || books[1]?.title || 'Kniha 2';
+
+        // Initial view
+        setTab('books');
+        applyVisibility();
+
+        // Deep-link to chapter anchor: open it
+        const hash = (location.hash || '').slice(1);
+        if(hash && hash.startsWith('ch-')){
+          // Find bookId from anchor id: ch-<bookId>-<chapterId>
+          const parts = hash.split('-');
+          const bookId = parts.length >= 3 ? parts[1] : null;
+          // show all if needed
+          activeBook = 'all';
+          setPressed(btnAll);
+          applyVisibility();
+          const el = document.getElementById(hash);
+          if(el){
+            const det = el.querySelector('details');
+            if(det) det.open = true;
+            el.scrollIntoView({ behavior: 'auto', block: 'start' });
+          }
+        }
+      })
+      .catch(err => {
+        booksMount.innerHTML = `<div class="empty show">Chyba: ${esc(err.message)}</div>`;
+        empty.classList.remove('show');
+      });
+  })();
+  </script>
+
+  <!--
+    ------------------------------
+    JSON SPEC (rychlý přehled)
+    ------------------------------
+
+    data/books.json:
+
+    {
+      "site": { "title": "...", "subtitle": "..." },
+      "books": [
+        {
+          "id": "pp",
+          "title": "Poslední přání",
+          "shortTitle": "Poslední přání",        // volitelné (na tlačítka)
+          "subtitle": "volitelné",
+          "year": 1993,                          // volitelné
+          "cover": "assets/img/covers/pp.webp",   // volitelné
+          "images": [                             // volitelné gallery (víc obrázků)
+            { "src": "assets/img/covers/pp.webp", "caption": "Cover" },
+            { "src": "assets/img/books/pp-1.webp", "caption": "Mood" }
+          ],
+          "chapters": [
+            {
+              "id": "hlas-rozumu",               // volitelné (když chybí, generuje se ze title)
+              "title": "Hlas rozumu (rámec)",
+              "typeBadge": "rámcový děj",
+              "summary": "…",
+              "notes": "volitelná poznámka",
+              "image": "assets/img/chapters/ellander.webp",  // volitelné
+              "people": ["Geralt", "Nenneke"],
+              "places": [
+                { "name": "Ellander (chrám Melitelé)", "ruler": "kníže Hereward" }
+              ],
+              "tags": ["ellander","chrám"]
+            }
+          ]
+        }
+      ],
+
+      "entities": {  // volitelné obohacení rejstříku
+        "people": [
+          { "key":"geralt", "name":"Geralt", "desc":"…", "image":"assets/img/people/geralt.webp", "aliases":["Bílý vlk"] }
+        ],
+        "places": [
+          { "key":"novigrad", "name":"Novigrad", "ruler":"hierarcha", "desc":"…", "image":"assets/img/places/novigrad.webp", "aliases":[] }
+        ],
+        "chapters": [
+          { "key":"hlas-rozumu", "name":"Hlas rozumu (rámec)", "desc":"…", "image":"assets/img/chapters/ellander.webp", "aliases":[] }
+        ]
+      }
+    }
+
+    Pozn.: Rejstřík se vytváří automaticky z kapitol (people/places) a entities.* je jen „enrichment“.
+  -->
+</body>
+</html>
