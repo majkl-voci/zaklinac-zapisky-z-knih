@@ -8,7 +8,7 @@
       "id": "pp",
       "title": "Poslední přání",
       "shortTitle": "Poslední přání",
-      "subtitle": "Rámec z chrámu + první známé povídky s Geraltem",
+      "subtitle": "Poslední přání je sbírka povídek, kde Geralt postupně naráží na monstra i lidi – a často zjistí, že to druhý bývá horší. Každá povídka řeší jiný morální průser (prokletí, předsudky, “menší zlo”), ale dohromady to skládá základ světa a pravidel, podle kterých (ne)funguje. A hlavně: je tu klíčový start vztahu Geralta a Yennefer a první velký kopanec od “osudu”.",
       "year": null,
       "cover": "assets/img/covers/posledni-prani.webp",
       "images": [
@@ -35,7 +35,7 @@
           "id": "zaklinac",
           "title": "Zaklínač",
           "typeBadge": "povídka",
-          "summary": "V městě Vizima se řeší prokletí a monstrum, který ohrožuje lidi i politiku. Geralt je vtaženej do hry, kde se míchá strach, moc a předsudky. Nejde jen o souboj, ale o to, kdo na tom vlastně vydělá.",
+          "summary": "Ve Vizimě řeší dvůr krále Foltesta prokletí, které se zvrhlo v strigu – monstrum ohrožující lidi i stabilitu celého království. Geralt je vtaženej do hry, kde se míchá strach, moc a předsudky: nejde jen o zakázku, ale o to, kdo na ní politicky vydělá a kdo ji chce naopak zamést pod koberec. Klíčový je samotnej střet se strigou v opuštěném sídle/ruinách spojených s její minulostí, kde Geralt místo „zabití“ zkusí prokletí zlomit a dotáhne to až do svítání.",
           "image": "assets/img/chapters/vizima.webp",
           "people": ["Geralt", "král Foltest", "striga"],
           "places": [
@@ -47,7 +47,7 @@
           "id": "zrnko-pravdy",
           "title": "Zrnko pravdy",
           "typeBadge": "povídka",
-          "summary": "Geralt narazí na prokletý sídlo a bytost, která působí jako monstrum, ale věci nejsou tak černobílý. Příběh je hlavně o tom, co je „příšera“ a co je jen maska. A že některý prokletí živí spíš lidi než magie.",
+          "summary": "Geralt narazí na odlehlý, zchátralý sídlo, kde žije Nivellen – na první pohled „příšera“ s tělem chlapa a zvířecí (lví) hlavou, protože je pod prokletím. Postupně vyjde najevo, že věci nejsou černobílý: Nivellen není klasický monstrum na zabití a největší hrůza se skrývá jinde – v jeho vztahu k Vereeně, která se ukáže být skutečnou nebezpečnou bytostí. Příběh je hlavně o tom, co je „příšera“ a co jen maska, a že některý prokletí živí spíš lidi než magie.",
           "image": "assets/img/chapters/zrnko.webp",
           "people": ["Geralt", "Nivellen", "Vereena"],
           "places": [
@@ -59,7 +59,7 @@
           "id": "mensi-zlo",
           "title": "Menší zlo",
           "typeBadge": "povídka",
-          "summary": "Geralt se ocitne v situaci, kde si nemůže vybrat „dobře“ – jen míň špatně. Neutralita dostává facku realitou, protože pasivita je taky volba. Povídka je typickej zaklínačskej test charakteru.",
+          "summary": "Geralt se v Blavikenu zaplete do konfliktu mezi čarodějem Stregoborem a ženou jménem Renfri. Stregobor chce, aby Geralt Renfri zabil (bere ji jako hrozbu/“zrozenou pro zlo” a bojí se, že si pro něj přijde), ale Geralt to odmítne, protože nemá důkaz, že je to monstrum na „zakázku“ – byla by to spíš vražda na objednávku a navíc “preventivně”. Jenže neutralita se mu rozpadne pod rukama, když Renfri začne tlačit situaci tak, že hrozí masakr nevinných, a Geralt nakonec jedná, aby tomu zabránil.",
           "image": "assets/img/chapters/mensi-zlo.webp",
           "people": ["Geralt", "Renfri", "Stregobor"],
           "places": [
@@ -71,7 +71,7 @@
           "id": "otazka-ceny",
           "title": "Otázka ceny",
           "typeBadge": "povídka",
-          "summary": "Dvůr v Cintrě řeší politiku, sňatky a nárok na ruku princezny – a do toho vstoupí Law of Surprise. Geralt je zatáhnutej do událostí, který mají dlouhej dopad. Není to akce, je to šachovnice.",
+          "summary": "Na dvoře v Cintrě vládne královna Calanthé a řeší se politika kolem sňatku její dcery Pavetty. Do toho přijde prokletej rytíř Duny (Ježek) a nárokuje si Pavettu na základě Zákona překvapení (Law of Surprise): kdysi zachránil život jejímu otci a ten mu slíbil „to, co doma najde, a nečeká“. Pavetta byla právě tím “překvapením”, takže se podle danýho slibu a pravidel dvora (a taky aby se nezlomil závazek s politickejma následkama) musí rozhodnout, jestli Dunyho přijme.",
           "image": "assets/img/chapters/cintra.webp",
           "people": ["Geralt", "královna Calanthé", "Pavetta", "Duny (Ježek)"],
           "places": [
@@ -83,7 +83,7 @@
           "id": "konec-sveta",
           "title": "Konec světa",
           "typeBadge": "povídka",
-          "summary": "Lidi a nelidi jedou každej svůj příběh a jejich pravdy se míjej. Geralt tu víc pozoruje než seká – a zjišťuje, že starý křivdy nikam nezmizely. Spíš jen čekají na další jiskru.",
+          "summary": "V povídce Konec světa jde Geralt s Marigoldem do kraje na hraně lidskýho osídlení, kde vesničani/sedláci žijou v klasickým strachu z “čertů” a nestvůr. Ukáže se, že ten jejich „čert“ je ve skutečnosti sylván Torque, trochu provokatér, co krade obilí pro vyhnané elfy, kteří se skrývají v okolí. Geralt tak víc pozoruje, než seká – a vidí, že lidi a nelidi (elfové) jedou každej svůj příběh, jejich pravdy se míjejí a starý křivdy nikam nezmizely, jen čekají na další jiskru.",
           "image": "assets/img/chapters/konec-sveta.webp",
           "people": ["Geralt", "Marigold", "Toruviel", "Filavandrel"],
           "places": [
@@ -109,7 +109,7 @@
       "id": "mo",
       "title": "Meč osudu",
       "shortTitle": "Meč osudu",
-      "subtitle": "Osud, Ciri, vztahy a mnohem víc „lidská“ rovina světa",
+      "subtitle": "Meč osudu je druhá sbírka povídek, kde už nejde tolik o „zakázky“, ale víc o vztahy, důsledky a to, že osud si tě stejně najde, i když se mu vyhýbáš. Klíčový je tu Geraltův kontakt s Ciri a postupný posun od neutrality k tomu, že některý věci prostě musíš vzít na sebe. A zároveň to dál rozvíjí svět lidí vs. nelidí, politikaření a cenu „trochy oběti“.",
       "year": null,
       "cover": "assets/img/covers/mec-osudu.webp",
       "images": [
@@ -159,7 +159,7 @@
           "id": "trochu-obeti",
           "title": "Trochu oběti",
           "typeBadge": "povídka",
-          "summary": "Moře, prokletí a pohádka narvaná realitou. Vedle hlavní zakázky se řeší i věci, který se „nevejdou do kontraktu“ – city, zodpovědnost, vlastní limity. Tady je krásně vidět, že zaklínač někdy platí víc než zlaťáky.",
+          "summary": "V Trochu oběti se Geralt motá kolem zakázky u moře, ale hlavní emoce jedou přes příběh lásky mezi mořskou pannou Sh’eenaz a knížetem Aglovalem, kterej si ji chce vzít – jenže oba světy mají svoje pravidla a nikdo nechce ustoupit. Do toho vstupuje Essi Daven (Marigoldova kamarádka, bardka), která tráví čas s Geraltem a je tam krásně vidět, jak věci “mimo kontrakt” umí bolet víc než jakýkoliv monstrum. Výsledek je pohádka narvaná realitou: něco se dá vyřešit magií, ale cenu za city a volby si stejně každej zaplatí sám.",
           "image": "assets/img/chapters/more.webp",
           "people": ["Geralt", "Dandelion/Marigold", "Essi Daven", "Agloval", "Sh'eenaz"],
           "places": [
@@ -183,7 +183,7 @@
           "id": "neco-vic",
           "title": "Něco víc",
           "typeBadge": "povídka",
-          "summary": "Tahle povídka dotahuje téma osudu až do bodu, kdy už se to nedá ukecat neutralitou. Válka a chaos ukážou cenu lidskýho života i toho, co člověk považoval za „jen práci“. A pak přijde něco víc – spojení, který má vydržet.",
+          "summary": "V Něco víc se Geralt po událostech války potácí zraněnej a narazí na kupce Yurgu, kterej ho vezme na vůz a snaží se ho dostat do bezpečí. Cestou Geralt kvůli zranění blouzní a mezi realitou se mu řežou flashbacky (minulý zakázky, rozhodnutí, Yennefer, osudový momenty) – přesně ten typ “účtování”, kdy už neutralita zní jen jako výmluva. Jak se probírá, je jasný, že svět se rozpadá na chaos a že „jen práce“ neexistuje, protože všechno má následky. A pak přijde to něco víc: setkání, který potvrdí, že osud si ho našel stejně, a to spojení už nepůjde brát jako náhodu.",
           "image": "assets/img/chapters/neco-vic.webp",
           "people": ["Geralt", "Ciri", "Yurga", "Visenna"],
           "places": [
